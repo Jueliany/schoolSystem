@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>教务管理系统登录</title>
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./static/css/font.css">
+	<link rel="stylesheet" href="./static/css/weadmin.css">
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="static/js/jquery.min.js" ></script>
+    <script type="text/javascript" src="static/js/constant.js" ></script>
+
+</head>
+<body class="login-bg">
+    
+    <div class="login">
+        <div class="message">教务管理系统登录</div>
+        <div id="darkbannerwrap"></div>
+        
+        <form method="post" class="layui-form" >
+            <input id="username" name="username" placeholder="请输入帐号"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input id="password" name="password" lay-verify="required" placeholder="请输入密码"  type="password" class="layui-input">
+            <hr class="hr15">
+            <div>
+            	 <input type="radio" lay-filter="type_teacher" name="type" value="0" title="老师" checked>
+     			 <input type="radio" lay-filter="type_student" name="type" value="1" title="学生" >
+            </div>
+            <hr class="hr15">
+            <input class="loginin" value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <hr class="hr20" >
+            
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        
+        	layui.extend({
+				admin: '{/}./static/js/admin'
+			});
+            layui.use(['form','admin'], function(){
+              var form = layui.form
+              	,admin = layui.admin;
+              // layer.msg('玩命卖萌中', function(){
+              //   //关闭后的操作
+              //   });
+              //监听提交
+              var username_input = $("#username")
+              form.on('radio(type_teacher)', function(data){
+				  username_input.attr('placeholder',"请输入帐号")
+				});
+			 form.on('radio(type_student)', function(data){
+				  username_input.attr('placeholder',"请输入学号")
+				});
+              form.on('submit(login)', function(data){
+                // alert(888)
+                if(data.field.type == 0){
+                	var postData = data.field;
+	                $.post("php/login.php", postData, fn_login, "json");
+				    function fn_login(json) {
+				      if(json.code == "0") {
+				        window.sessionStorage.setItem("id", json.data.username);
+				        window.sessionStorage.setItem("type", 0);
+				        location.href = 'index.html'
+				      } else {
+				        alert("帐号或者密码错误")      
+				      }
+				    }
+                }else{
+                	var postData = data.field;
+	                $.post("php/login_student.php", postData, fn_login, "json");
+				    function fn_login(json) {
+				      if(json.code == "0") {
+				        window.sessionStorage.setItem("id", json.data.username);
+				        window.sessionStorage.setItem("type", 1);
+				        location.href = 'index.html'
+				      } else {
+				        alert("帐号或者密码错误")      
+				      }
+				    }
+                }
+	                
+                return false
+//              layer.msg(JSON.stringify(data.field),function(){
+//                  location.href='./index.html'
+//              });
+              });
+            });   
+    </script>  
+    <!-- 底部结束 -->
+</body>
+</html>
