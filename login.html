@@ -64,6 +64,7 @@
 				    function fn_login(json) {
 				      if(json.code == "0") {
 				        window.sessionStorage.setItem("id", json.data.username);
+				        window.sessionStorage.setItem("name", json.data.name);
 				        window.sessionStorage.setItem("type", 0);
 				        location.href = 'index.html'
 				      } else {
@@ -75,7 +76,9 @@
 	                $.post("php/login_student.php", postData, fn_login, "json");
 				    function fn_login(json) {
 				      if(json.code == "0") {
+				      	console.log(json)
 				        window.sessionStorage.setItem("id", json.data.username);
+				        window.sessionStorage.setItem("name", json.data.name);
 				        window.sessionStorage.setItem("type", 1);
 				        location.href = 'index.html'
 				      } else {
