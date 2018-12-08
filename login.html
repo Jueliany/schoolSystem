@@ -60,7 +60,7 @@
                 // alert(888)
                 if(data.field.type == 0){
                 	var postData = data.field;
-	                $.post("php/login.php", postData, fn_login, "json");
+	                $.post("php/api.php?api=loginAdmin", postData, fn_login, "json");
 				    function fn_login(json) {
 				      if(json.code == "0") {
 				        window.sessionStorage.setItem("id", json.data.username);
@@ -73,7 +73,7 @@
 				    }
                 }else{
                 	var postData = data.field;
-	                $.post("php/login_student.php", postData, fn_login, "json");
+	                $.post("php/api.php?api=loginStudent", postData, fn_login, "json");
 				    function fn_login(json) {
 				      if(json.code == "0") {
 				      	console.log(json)
