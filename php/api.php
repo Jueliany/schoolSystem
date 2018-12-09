@@ -21,5 +21,7 @@
       echo $login -> loginStudent();
     }elseif($api_url == 'queryStudentList'){
         echo $student -> queryStudentList();
+    }elseif($api_url == 'addStudent'){
+        echo $student -> addStudent();
     }
 ?>

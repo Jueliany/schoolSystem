@@ -16,6 +16,15 @@
         }
         return json_encode($array);
       }
+
+      function addStudent(){
+        $postData = $_POST['data'];
+        $data = json_decode($postData,true);
+        $coon = new db();
+       
+        // return json_encode(array_keys($data));
+        return $coon->Insert("student",$data,true);
+      }
     }
       
     

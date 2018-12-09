@@ -30,5 +30,54 @@
           }
       }
 
+      public function Insert($tableName,$data,$haveTime)
+  //两个参数：sql语句，判断返回1查询或是增删改的返回
+      {
+
+  //造一个连接对象，参数是上面的那四个
+          $db = new mysqli($this->host,$this->account,$this->pass,$this->db_name,$this->port);
+          $db->query("SET CHARACTER SET 'utf8'");//读库   
+          $db->query("SET NAMES 'utf8'");//写库 
+          $arrayKeys = array_keys($data);
+          $arrayValues = array_values($data);
+          $kl = "";
+          $vl = "";
+          $num = count($arrayKeys); 
+          for($i=0;$i<$num;++$i){ 
+            if($i != $num-1){
+              $kl = $kl . $arrayKeys[$i] . ","; 
+            }else{
+              if($haveTime){
+                $kl = $kl . $arrayKeys[$i].",created_time" ; 
+              }else{
+                $kl = $kl . $arrayKeys[$i] ; 
+              }
+              
+            }
+          } 
+          for($i=0;$i<$num;++$i){ 
+            if($i != $num-1){
+              $vl = $vl . "'".$arrayValues[$i] ."'". ","; 
+            }else{
+              if($haveTime){
+                $vl = $vl . "'".$arrayValues[$i]."'".",now()" ; 
+              }else{
+                $vl = $vl . "'".$arrayValues[$i]."'" ; 
+              }
+            }
+          } 
+          $conn = new db();
+          $sql = "INSERT INTO $tableName (".$kl.") VALUES (".$vl.")";
+          $result = "";
+          if ($db->query($sql) === TRUE) {
+              $result = "新记录插入成功";
+          } else {
+              $result = "Error: " . $sql . "<br>" . $conn->error;
+          }
+          return $result;
+          
+      }
+
   }
+  
 ?>

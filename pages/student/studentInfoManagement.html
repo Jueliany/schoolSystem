@@ -14,6 +14,9 @@
 			  text-align: center !important;
 			}
 		</style>
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="../../static/js/admin.js"></script>
 		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
 		<!--[if lt IE 9]>
 	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -45,27 +48,35 @@
 				</form>
 			</div>
 			<div class="weadmin-block">
-				<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-				<button class="layui-btn" onclick="WeAdminShow('添加用户','./add.html',600,400)"><i class="layui-icon"></i>添加</button>
+				<!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
+				<button class="layui-btn" onclick="WeAdminShow('添加学生','./add.html',450,600)"><i class="layui-icon"></i>添加</button>
 			</div>
 			<table class="layui-table" id="studentList">
-				
+				<script type="text/html" id="operateTpl">
+					<a title="编辑" onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 400)" href="javascript:;">
+						<i class="layui-icon">&#xe642;</i>
+					</a>
+					<a title="查看" onclick="WeAdminShow('查看文章','./show.html',600,400)" href="javascript:;">
+						<i class="layui-icon">&#xe63c;</i>
+					</a>
+					<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+						<i class="layui-icon">&#xe640;</i>
+					</a>
+				</script>
 			</table>
 			
 		</div>
-		<!--<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
-		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
 		<!-- <script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script> -->
 		<script type="text/javascript">
 			layui.extend({
 				admin: '{/}../../static/js/admin'
 			});
-
-			layui.use(['table', 'jquery','form'], function() {
+			
+			layui.use(['table', 'jquery','form','admin'], function() {
 				var table = layui.table,
 					$ = layui.jquery,
+					admin = layui.admin,
 					form = layui.form;
-
 				 $.ajax({
 		            url: '../../php/api.php?api=queryStudentList',
 		            type: 'post',
@@ -84,7 +95,7 @@
 								}, {
 									field: 'name',title: '姓名'
 								}, {
-									field: 'department_id',title: '性别'
+									field: 'sex',title: '性别'
 								}, {
 									field: 'grade',title: '年级'
 								}, {
@@ -96,7 +107,7 @@
 								}, {
 									field: 'telephone',title: '电话'
 								}, {
-									field: '',title: '操作',templet: '#reviewTpl',unresize: true
+									field: 'set',title: '操作',toolbar: '#operateTpl',unresize: true
 								}]
 							],
 							data:result.data,
