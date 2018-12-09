@@ -1,7 +1,6 @@
 <?php
     // 获取用户名
     // header("Content-Type: application/json");
-    include "public/public_db.php";
     class Login{
 
       //管理员登陆

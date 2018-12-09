@@ -9,6 +9,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel="stylesheet" href="../../static/css/font.css">
 		<link rel="stylesheet" href="../../static/css/weadmin.css">
+		<style type="text/css">
+			.layui-table-page div{
+			  text-align: center !important;
+			}
+		</style>
 		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
 		<!--[if lt IE 9]>
 	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -42,96 +47,66 @@
 			<div class="weadmin-block">
 				<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
 				<button class="layui-btn" onclick="WeAdminShow('添加用户','./add.html',600,400)"><i class="layui-icon"></i>添加</button>
-				<span class="fr" style="line-height:40px">共有数据：88 条</span>
 			</div>
 			<table class="layui-table" id="studentList">
 				
 			</table>
-			<div class="page">
-				<div>
-					<a class="prev" href="">&lt;&lt;</a>
-					<a class="num" href="">1</a>
-					<span class="current">2</span>
-					<a class="num" href="">3</a>
-					<a class="num" href="">489</a>
-					<a class="next" href="">&gt;&gt;</a>
-				</div>
-			</div>
+			
 		</div>
 		<!--<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
 		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
-		<script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script>
+		<!-- <script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script> -->
 		<script type="text/javascript">
 			layui.extend({
 				admin: '{/}../../static/js/admin'
 			});
 
-
-
-
-
-			layui.use(['table', 'jquery','form', 'admin'], function() {
+			layui.use(['table', 'jquery','form'], function() {
 				var table = layui.table,
 					$ = layui.jquery,
-					form = layui.form,
-					admin = layui.admin;
+					form = layui.form;
 
 				 $.ajax({
-		            url: '../../php/api.php?type=test',
+		            url: '../../php/api.php?api=queryStudentList',
 		            type: 'post',
 		            data: {
-		                a: '123'
+		                
 		            },
 		            dataType: 'JSON',
-		            success: function (data) {
-		                console.log(data);
+		            success: function (result) {
+		            	console.log(result)
+		            	table.render({
+							elem: '#studentList',
+							cellMinWidth: 80,
+							cols: [
+								[{
+									field:'student_id',title: '学号'
+								}, {
+									field: 'name',title: '姓名'
+								}, {
+									field: 'department_id',title: '性别'
+								}, {
+									field: 'grade',title: '年级'
+								}, {
+									field: 'department_name',title: '系别'
+								}, {
+									field: 'science_name',title: '专业'
+								}, {
+									field: 'class_name',title: '班级'
+								}, {
+									field: 'telephone',title: '电话'
+								}, {
+									field: '',title: '操作',templet: '#reviewTpl',unresize: true
+								}]
+							],
+							data:result.data,
+							event: true,
+							page: true
+						});
 		            }
 		        });
 
-				table.render({
-					elem: '#studentList',
-					cellMinWidth: 80,
-					cols: [
-						[{
-							field:'student_id',title: '学号'
-						}, {
-							field: 'name',title: '姓名'
-						}, {
-							field: 'department_id',title: '性别'
-						}, {
-							field: 'grade',title: '年级'
-						}, {
-							field: 'department_name',title: '系别'
-						}, {
-							field: 'science_name',title: '专业'
-						}, {
-							field: 'class_name',title: '班级'
-						}, {
-							field: 'telephone',title: '电话'
-						}, {
-							field: '',title: '操作',templet: '#reviewTpl',unresize: true
-						}]
-					],
-					data: [{
-						"id": "1",
-						"title": "WeAdmin的第一个版本在不断地抽空完善学习中",
-						"date": "2018-02-03",
-						"category": "官方动态",
-						"sort": "1",
-						"recommend": "button",
-						"top": "checked"
-					}, {
-						"id": "2",
-						"title": "WeAdmin的测试数据一二三四五六七",
-						"date": "2018-02-03",
-						"category": "新闻资讯",
-						"sort": "1",
-						"recommend": "",
-						"top": "checked"
-					}],
-					event: true,
-					page: true
-				});
+						
 				/*
 				 *数据表格中form表单元素是动态插入,所以需要更新渲染下
 				 * http://www.layui.com/doc/modules/form.html#render
