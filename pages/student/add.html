@@ -59,7 +59,7 @@
                   <span class="we-red">*</span>系别
               </label>
               <div class="layui-input-inline">
-                  <select name="department_id">
+                  <select value="1" lay-filter="department_id" id="department_id"  name="department_id">
                     <option value="1">计算机系</option>
                     <option value="2">管理系</option>
                     <option value="3">外语系</option>
@@ -72,7 +72,7 @@
                   <span class="we-red">*</span>专业
               </label>
               <div class="layui-input-inline">
-                  <select name="science_id">
+                  <select value="1" lay-filter="science_id" id="science_id" name="science_id">
                     <option data-dep="1" value="1">计算机科学与技术</option>
                     <option data-dep="1" value="2">软件工程</option>
                     <option data-dep="2" value="3">工商管理</option>
@@ -89,7 +89,7 @@
                   <span class="we-red">*</span>班级
               </label>
               <div class="layui-input-inline">
-                  <select name="class_id">
+                  <select value="1" lay-filter="class_id" id="class_id"  name="class_id">
                     <option data-sci="1" value="1">web1</option>
                     <option data-sci="1" value="2">web2</option>
                     <option data-sci="2" value="3">软工1</option>
@@ -133,7 +133,7 @@
           	var form = layui.form,
 				$ = layui.jquery,
           		layer = layui.layer;
-			
+			bindEvent();
 	        //监听提交
 	        form.on('submit(addStudent)', function(data){
 //	            console.log(data.field);
@@ -172,6 +172,28 @@
 //	            });
 	            return false;
 	        }); 
+	        
+	        function bindEvent(){
+	        	$("#department_id").find("option").each(function(){
+	        		console.log($(this))
+	        	});
+	        	$("#science_id").find("option").each(function(){
+	        		if(this.dataset.dep == $("#department_id").val()){
+	        			$(this).show()
+	        		}else{
+	        			$(this).hide()
+	        		}
+	        		console.log(this.dataset.dep)
+	        	});
+	        	$("#class_id").find("option").each(function(){
+	        		if(this.dataset.sci == $("#science_id").val()){
+	        			$(this).show()
+	        		}else{
+	        			$(this).hide()
+	        		}
+	        	});
+	        	form.render();
+	        }
         });
     </script>
   </body>

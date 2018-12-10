@@ -312,7 +312,6 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 		if(h == null || h == '') {
 			h = ($(window).height() - 50);
 		};
-		alert(1)
 		layer.open({
 			type: 2,
 			area: [w + 'px', h + 'px'],
