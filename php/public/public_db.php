@@ -6,11 +6,10 @@
       public $pass = "123456";//定义默认的密码
       public $db_name = "student";//定义默认的数据库名
       public $port = "3306";
-  //成员方法   是用来执行sql语句的方法
-      public function Query($sql,$type=1)
-  //两个参数：sql语句，判断返回1查询或是增删改的返回
+
+      //查询
+      public function Query($sql,$type=1)//两个参数：sql语句，判断返回1查询或是增删改的返回
       {
-  //造一个连接对象，参数是上面的那四个
           $db = new mysqli($this->host,$this->account,$this->pass,$this->db_name,$this->port);
           $db->query("SET CHARACTER SET 'utf8'");//读库   
           $db->query("SET NAMES 'utf8'");//写库 
@@ -30,11 +29,9 @@
           }
       }
 
-      public function Insert($tableName,$data,$haveTime)
-  //两个参数：sql语句，判断返回1查询或是增删改的返回
-      {
 
-  //造一个连接对象，参数是上面的那四个
+      //插入
+      public function Insert($tableName,$data,$haveTime){
           $db = new mysqli($this->host,$this->account,$this->pass,$this->db_name,$this->port);
           $db->query("SET CHARACTER SET 'utf8'");//读库   
           $db->query("SET NAMES 'utf8'");//写库 
@@ -70,11 +67,67 @@
           $sql = "INSERT INTO $tableName (".$kl.") VALUES (".$vl.")";
           $result = "";
           if ($db->query($sql) === TRUE) {
-              $result = "新记录插入成功";
+              $result = array("code"=>"0", "msg"=> "插入成功");;
           } else {
-              $result = "Error: " . $sql . "<br>" . $conn->error;
+              $result = array("code"=>"1", "msg"=> "插入失败");;
           }
-          return $result;
+          return json_encode($result);
+          
+      }
+
+      //删除
+      public function Delete($tableName,$data){
+          $db = new mysqli($this->host,$this->account,$this->pass,$this->db_name,$this->port);
+          $db->query("SET CHARACTER SET 'utf8'");//读库   
+          $db->query("SET NAMES 'utf8'");//写库 
+          $key = array_keys($data)[0];
+          $value = array_values($data)[0];
+         
+          $conn = new db();
+          $sql = "delete from $tableName where $key = $value";
+          $result = "";
+          if ($db->query($sql) === TRUE) {
+              $result = array("code"=>"0", "msg"=> "删除成功");
+          } else {
+              $result = array("code"=>"1", "msg"=> "删除失败");
+          }
+          return json_encode($result);
+          
+      }
+
+      //x修改
+      public function Update($tableName,$data,$needTime){
+          $db = new mysqli($this->host,$this->account,$this->pass,$this->db_name,$this->port);
+          $db->query("SET CHARACTER SET 'utf8'");//读库   
+          $db->query("SET NAMES 'utf8'");//写库 
+          $arrayKeys = array_keys($data);
+          $arrayValues = array_values($data);
+          $kl = "";
+          $key = $arrayKeys[0];
+          $value = $arrayValues[0];
+          $num = count($arrayKeys); 
+          for($i=1;$i<$num;++$i){ 
+            if($i != $num-1){
+              $kl = $kl . $arrayKeys[$i]. "='".$arrayValues[$i] ."'" . ","; 
+            }else{
+              if($needTime == true){
+                $kl = $kl . $arrayKeys[$i]. "='".$arrayValues[$i] ."'".",change_time=now()" ; 
+              }else{
+                $kl = $kl . $arrayKeys[$i]. "='".$arrayValues[$i] ."'" ; 
+              }
+              
+            }
+          } 
+          
+          $conn = new db();
+          $sql = "update $tableName  set $kl where $key = '$value'";
+          $result = "";
+          if ($db->query($sql) === TRUE) {
+              $result = array("code"=>"0", "msg"=> "修改成功");;
+          } else {
+              $result = array("code"=>"1", "msg"=> "修改失败");;
+          }
+          return json_encode($result);
           
       }
 

@@ -14,14 +14,14 @@
 
     $login = new Login();
     $student = new Student();
-    if($api_url == 'loginAdmin'){
-      echo $login -> loginAdmin();
+    switch($api_url)//调用相应接口
+    {
+        case 'loginAdmin':echo $login -> loginAdmin();break;
+        case 'loginStudent':echo $login -> loginStudent();break;
+        case 'queryStudentList':echo $student -> queryStudentList();break;
+        case 'addStudent':echo $student -> addStudent();break;
+        case 'deleteStudent':echo $student -> deleteStudent();break;
+        case 'updateStudent':echo $student -> updateStudent();break;
     }
-    elseif($api_url == 'loginStudent'){
-      echo $login -> loginStudent();
-    }elseif($api_url == 'queryStudentList'){
-        echo $student -> queryStudentList();
-    }elseif($api_url == 'addStudent'){
-        echo $student -> addStudent();
-    }
+    
 ?>

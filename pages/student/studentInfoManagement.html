@@ -53,156 +53,128 @@
 			</div>
 			<table class="layui-table" id="studentList">
 				<script type="text/html" id="operateTpl">
-					<a title="编辑" onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 400)" href="javascript:;">
+					<!--<a title="编辑" class="updateStudent"  onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 600)" href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
-					</a>
-					<a title="查看" onclick="WeAdminShow('查看文章','./show.html',600,400)" href="javascript:;">
+					</a>-->
+					<a title="查看" class="updateStudent"  href="javascript:;">
 						<i class="layui-icon">&#xe63c;</i>
 					</a>
-					<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+					<a title="删除" class="deleteStudent"  href="javascript:;">
 						<i class="layui-icon">&#xe640;</i>
 					</a>
 				</script>
 			</table>
 			
 		</div>
-		<!-- <script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script> -->
-		<script type="text/javascript">
-			layui.extend({
-				admin: '{/}../../static/js/admin'
-			});
-			
-			layui.use(['table', 'jquery','form','admin'], function() {
-				var table = layui.table,
-					$ = layui.jquery,
-					admin = layui.admin,
-					form = layui.form;
-				 $.ajax({
-		            url: '../../php/api.php?api=queryStudentList',
-		            type: 'post',
-		            data: {
-		                
-		            },
-		            dataType: 'JSON',
-		            success: function (result) {
-		            	console.log(result)
-		            	table.render({
-							elem: '#studentList',
-							cellMinWidth: 80,
-							cols: [
-								[{
-									field:'student_id',title: '学号'
-								}, {
-									field: 'name',title: '姓名'
-								}, {
-									field: 'sex',title: '性别'
-								}, {
-									field: 'grade',title: '年级'
-								}, {
-									field: 'department_name',title: '系别'
-								}, {
-									field: 'science_name',title: '专业'
-								}, {
-									field: 'class_name',title: '班级'
-								}, {
-									field: 'telephone',title: '电话'
-								}, {
-									field: 'set',title: '操作',toolbar: '#operateTpl',unresize: true
-								}]
-							],
-							data:result.data,
-							event: true,
-							page: true
-						});
-		            }
-		        });
+	
+	</body>
+<!-- <script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script> -->
+	<script type="text/javascript">
+		layui.extend({
+			admin: '{/}../../static/js/admin'
+		});
+		layui.use(['table', 'jquery','form','admin','layer'], function() {
+			var table = layui.table,
+				layer = layui.layer,
+				$ = layui.jquery,
+				admin = layui.admin,
+				form = layui.form;
+			var postData = {};
+			 $.ajax({
+	            url: '../../php/api.php?api=queryStudentList',
+	            type: 'post',
+	            data: "data="+JSON.stringify(postData),
+	            dataType: 'JSON',
+	            success: function (result) {
+	            	console.log(result)
+	            	table.render({
+						elem: '#studentList',
+						cellMinWidth: 80,
+						cols: [
+							[{
+								field:'student_id',title: '学号'
+							}, {
+								field: 'name',title: '姓名'
+							}, {
+								field: 'sex',title: '性别'
+							}, {
+								field: 'grade',title: '年级'
+							}, {
+								field: 'department_name',title: '系别'
+							}, {
+								field: 'science_name',title: '专业'
+							}, {
+								field: 'class_name',title: '班级'
+							}, {
+								field: 'telephone',title: '电话'
+							}, {
+								field: 'set',title: '操作',toolbar: '#operateTpl',unresize: true
+							}]
+						],
+						data:result.data,
+						event: true,
+						page: true
+					});
+					bindEvent();
+	            }
+	        });
 
-						
-				/*
-				 *数据表格中form表单元素是动态插入,所以需要更新渲染下
-				 * http://www.layui.com/doc/modules/form.html#render
-				 * */
-				$(function(){
-					form.render();
+			
+			function bindEvent(){
+				/*用户-删除*/
+				$(".deleteStudent").on('click',function() {
+					var that = this;
+					layer.confirm('确认要删除吗？', function(index) {
+						var postData = {};
+						postData.student_id = $(that).parents('tr').get(0).firstChild.firstChild.innerHTML;
+						var indexLoad = layer.load(2); 
+						$.ajax({
+							type:"post",
+							url:"../../php/api.php?api=deleteStudent",
+							data: "data=" + JSON.stringify(postData),
+	            			dataType: 'JSON',
+							async:false,
+							success: function(result){
+								console.log(result)
+								if(result.code == 0){
+									$(that).parents("tr").remove();
+									layer.msg('已删除!', {
+										icon: 1,
+										time: 2000
+									});
+								}else{
+									layer.msg(result.msg, {
+										icon: 1,
+										time: 2000
+									});
+								}
+								layer.close(indexLoad);
+							}
+						});
+					});
 				});
 				
-				var active = {
-					getCheckData: function() { //获取选中数据
-						var checkStatus = table.checkStatus('articleList'),
-							data = checkStatus.data;
-						//console.log(data);
-						//layer.alert(JSON.stringify(data));
-						if(data.length > 0) {
-							layer.confirm('确认要删除吗？' + JSON.stringify(data), function(index) {
-								layer.msg('删除成功', {
-									icon: 1
-								});
-								//找到所有被选中的，发异步进行删除
-								$(".layui-table-body .layui-form-checked").parents('tr').remove();
-							});
-						} else {
-							layer.msg("请先选择需要删除的文章！");
-						}
-
-					},
-					Recommend: function() {
-						var checkStatus = table.checkStatus('articleList'),
-							data = checkStatus.data;
-						if(data.length > 0) {
-							layer.msg("您点击了推荐操作");
-							for(var i = 0; i < data.length; i++) {
-								console.log("a:" + data[i].recommend);
-								data[i].recommend = "checked";
-								console.log("aa:" + data[i].recommend);
-								form.render();
-							}
-
-						} else {
-							console.log("b");
-							layer.msg("请先选择");
-						}
-
-						//$(".layui-table-body .layui-form-checked").parents('tr').children().children('input[name="zzz"]').attr("checked","checked");
-					},
-					Top: function() {
-						layer.msg("您点击了置顶操作");
-					},
-					Review: function() {
-						layer.msg("您点击了审核操作");
-					}
-
-				};
-
-				$('.demoTable .layui-btn').on('click', function() {
-					var type = $(this).data('type');
-					active[type] ? active[type].call(this) : '';
+//				修改信息
+				$(".updateStudent").on('click',function() {
+					var that = this;
+					WeAdminEdit('学生信息','./edit.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 600, 450)
+//					
 				});
-
-				/*用户-删除*/
-				window.member_del = function(obj, id) {
-					layer.confirm('确认要删除吗？', function(index) {
-						//发异步删除数据
-						$(obj).parents("tr").remove();
-						layer.msg('已删除!', {
-							icon: 1,
-							time: 1000
-						});
-					});
-				}
-
-			});
-
-			function delAll(argument) {
-				var data = tableCheck.getData();
-				layer.confirm('确认要删除吗？' + data, function(index) {
-					//捉到所有被选中的，发异步进行删除
-					layer.msg('删除成功', {
-						icon: 1
-					});
-					$(".layui-form-checked").not('.header').parents('tr').remove();
-				});
+				form.render();
 			}
-		</script>
-	</body>
+		});
 
+		
+		
+		function delAll(argument) {
+			var data = tableCheck.getData();
+			layer.confirm('确认要删除吗？' + data, function(index) {
+				//捉到所有被选中的，发异步进行删除
+				layer.msg('删除成功', {
+					icon: 1
+				});
+				$(".layui-form-checked").not('.header').parents('tr').remove();
+			});
+		}
+	</script>
 </html>

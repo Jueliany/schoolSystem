@@ -312,13 +312,12 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 		if(h == null || h == '') {
 			h = ($(window).height() - 50);
 		};
+		alert(1)
 		layer.open({
 			type: 2,
 			area: [w + 'px', h + 'px'],
 			fix: false, //不固定
 			maxmin: true,
-			shadeClose: true,
-			shade: 0.4,
 			title: title,
 			content: url
 		});
@@ -342,8 +341,6 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 			area: [w + 'px', h + 'px'],
 			fix: false, //不固定
 			maxmin: true,
-			shadeClose: true,
-			shade: 0.4,
 			title: title,
 			content: url,
 			success: function(layero, index) {
@@ -353,7 +350,6 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 				console.log(id);
 			},
 			error: function(layero, index) {
-				alert("aaa");
 			}
 		});
 	}
