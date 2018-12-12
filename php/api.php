@@ -10,10 +10,12 @@
     
     require_once('login.php');
     require_once('student.php'); 
+    require_once('reward.php'); 
     $api_url = @$_GET['api'];
 
     $login = new Login();
     $student = new Student();
+    $reward = new Reward();
     switch($api_url)//调用相应接口
     {
         case 'loginAdmin':echo $login -> loginAdmin();break;
@@ -22,6 +24,11 @@
         case 'addStudent':echo $student -> addStudent();break;
         case 'deleteStudent':echo $student -> deleteStudent();break;
         case 'updateStudent':echo $student -> updateStudent();break;
+        case 'queryRewardList':echo $reward -> queryRewardList();break;
+        case 'queryReward':echo $reward -> queryReward();break;
+        case 'addReward':echo $reward -> addReward();break;
+        case 'deleteReward':echo $reward -> deleteReward();break;
+        case 'updateReward':echo $reward -> updateReward();break;
     }
     
 ?>

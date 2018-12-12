@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>学生信息管理</title>
+		<title>学生奖惩管理</title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -102,13 +102,13 @@
 					</div>
 					<div class="layui-inline" style="margin: 0;" >
 						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="sreach" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>	
-						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加学生','./add.html',450,600)"><i class="layui-icon"></i>添加</button>
+						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加奖惩记录','./addReward.html',500,400)"><i class="layui-icon"></i>添加</button>
 			
 					</div>
 					</form>
 			</div>
 			
-			<table class="layui-table" id="studentList">
+			<table class="layui-table" id="rewardList">
 				<script type="text/html" id="operateTpl">
 					<!--<a title="编辑" class="updateStudent"  onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 600)" href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
@@ -169,22 +169,22 @@
 					postData.class_id = $("#class_id").val() ;
 				}
 				 $.ajax({
-		            url: '../../php/api.php?api=queryStudentList',
+		            url: '../../php/api.php?api=queryRewardList',
 		            type: 'post',
 		            data: "data="+JSON.stringify(postData),
 		            dataType: 'JSON',
 		            success: function (result) {
 		            	console.log(result)
 		            	table.render({
-							elem: '#studentList',
+							elem: '#rewardList',
 							cellMinWidth: 80,
 							cols: [
 								[{
+									field:'reward_id',title: '编号'
+								},{
 									field:'student_id',title: '学号'
 								}, {
 									field: 'name',title: '姓名'
-								}, {
-									field: 'sex',title: '性别'
 								}, {
 									field: 'grade',title: '年级'
 								}, {
@@ -194,7 +194,9 @@
 								}, {
 									field: 'class_name',title: '班级'
 								}, {
-									field: 'telephone',title: '电话'
+									field: 'reward_name',title: '奖惩'
+								}, {
+									field: 'datetime',title: '时间'
 								}, {
 									field: 'set',title: '操作',toolbar: '#operateTpl',unresize: true
 								}]
@@ -218,11 +220,11 @@
 					var that = this;
 					layer.confirm('确认要删除吗？', function(index) {
 						var postData = {};
-						postData.student_id = $(that).parents('tr').get(0).firstChild.firstChild.innerHTML;
+						postData.reward_id = $(that).parents('tr').get(0).firstChild.firstChild.innerHTML;
 						var indexLoad = layer.load(2); 
 						$.ajax({
 							type:"post",
-							url:"../../php/api.php?api=deleteStudent",
+							url:"../../php/api.php?api=deleteReward",
 							data: "data=" + JSON.stringify(postData),
 	            			dataType: 'JSON',
 							async:false,
@@ -236,7 +238,7 @@
 									});
 								}else{
 									layer.msg(result.msg, {
-										icon: 1,
+										icon: 2,
 										time: 2000
 									});
 								}
@@ -249,7 +251,7 @@
 //				修改信息
 				$(".updateStudent").on('click',function() {
 					var that = this;
-					WeAdminEdit('学生信息','./edit.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 600, 450)
+					WeAdminEdit('修改记录','./editReward.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 600, 450)
 //					
 				});
 				form.render();
