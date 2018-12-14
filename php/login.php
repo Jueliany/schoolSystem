@@ -31,7 +31,7 @@
         $row = $coon->Query($sql, 2);
         // 找到数据
         if($row) {
-          $arr = array("id" => $row["id"], "username"=> $row["student_id"],"name" => $row["name"]);
+          $arr = array("username"=> $row["student_id"],"name" => $row["name"]);
           // 返回用户基本信息
           $array = array("code"=>"0", "msg"=> "", "data"=>  $arr);
           

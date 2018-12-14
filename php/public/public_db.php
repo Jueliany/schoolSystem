@@ -14,7 +14,6 @@
           $db->query("SET CHARACTER SET 'utf8'");//读库   
           $db->query("SET NAMES 'utf8'");//写库 
           $r = $db->query($sql);
-          
           if($type == "1") {
               $array = array();
               while($row = $r -> fetch_assoc()) {
