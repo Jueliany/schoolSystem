@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>学生信息管理</title>
+		<title>课表信息管理</title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -36,50 +36,6 @@
 			<div class="layui-row">
 				<form class="layui-form layui-col-md12 we-search">
 					<div class="layui-inline">
-						<input class="layui-input" placeholder="学号" name="" id="student_id">
-					</div>
-					<div class="layui-inline">
-						<input class="layui-input" placeholder="姓名" name="end" id="name">
-					</div>
-					<div class="layui-inline">
-						<select id="sex" name="sex">
-		                    <option value="">请选择性别</option>
-		                    <option value="男">男</option>
-		                    <option value="女">女</option>
-		                  </select>
-					</div>
-					<div class="layui-inline">
-	                  <select  lay-filter="grade" id="grade"  name="grade">
-	                    <option value="">请选择年级</option>
-	                    <option value="2016">2016</option>
-	                    <option value="2017">2017</option>
-	                    <option value="2018">2018</option>
-	                    <option value="2019">2019</option>
-	                  </select>
-					</div>
-					<div class="layui-inline">
-	                  <select  lay-filter="department_id" id="department_id"  name="department_id">
-	                    <option value="">请选择系别</option>
-	                    <option value="1">计算机系</option>
-	                    <option value="2">管理系</option>
-	                    <option value="3">外语系</option>
-	                    <option value="4">游戏系</option>
-	                  </select>
-					</div>
-					<div class="layui-inline">
-						<select  lay-filter="science_id" id="science_id" name="science_id">
-		                    <option data-dep="" value="">请选择专业</option>
-		                    <option data-dep="1" value="1">计算机科学与技术</option>
-		                    <option data-dep="1" value="2">软件工程</option>
-		                    <option data-dep="2" value="3">工商管理</option>
-		                    <option data-dep="2" value="4">人力资源管理专业</option>
-		                    <option data-dep="3" value="5">英语</option>
-		                    <option data-dep="3" value="6">日语</option>
-		                    <option data-dep="4" value="7">动画</option>
-		                    <option data-dep="4" value="8">数字媒体</option>
-		                  </select>
-					</div>
-					<div class="layui-inline">
 						<select value="1" lay-filter="class_id" id="class_id"  name="class_id">
 		                    <option data-sci="" value="">请选择班级</option>
 		                    <option data-sci="1" value="1">web1</option>
@@ -102,8 +58,7 @@
 					</div>
 					<div class="layui-inline" style="margin: 0;" >
 						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="sreach" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>	
-						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加学生','./add.html',450,600)"><i class="layui-icon"></i>添加</button>
-			
+						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加课表','./addClassTable.html',1000,600)"><i class="layui-icon"></i>添加</button>
 					</div>
 					</form>
 			</div>
@@ -169,7 +124,7 @@
 					postData.class_id = $("#class_id").val() ;
 				}
 				 $.ajax({
-		            url: '../../php/api.php?api=queryStudentList',
+		            url: '../../php/api.php?api=queryClassTableList',
 		            type: 'post',
 		            data: "data="+JSON.stringify(postData),
 		            dataType: 'JSON',
@@ -180,21 +135,11 @@
 							cellMinWidth: 80,
 							cols: [
 								[{
-									field:'student_id',title: '学号'
+									field:'timetables_id',title: '编号'
 								}, {
-									field: 'name',title: '姓名'
+									field: 'class_name',title: '教学班'
 								}, {
-									field: 'sex',title: '性别'
-								}, {
-									field: 'grade',title: '年级'
-								}, {
-									field: 'department_name',title: '系别'
-								}, {
-									field: 'science_name',title: '专业'
-								}, {
-									field: 'class_name',title: '班级'
-								}, {
-									field: 'telephone',title: '电话'
+									field: 'term',title: '学期'
 								}, {
 									field: 'set',title: '操作',toolbar: '#operateTpl',unresize: true
 								}]

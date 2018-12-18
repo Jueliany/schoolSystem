@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<!--
+	作者：github.com/WangEn
+	时间：2018-02-02
+	描述：添加文章类别
+-->  
+  <head>
+    <meta charset="UTF-8">
+    <title>添加分类-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="../../static/css/font.css">
+	<link rel="stylesheet" href="../../static/css/weadmin.css">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    <div class="weadmin-body">
+        <form class="layui-form">
+        <div class="layui-row">
+        	<div class="layui-col-xs6 layui-col-sm3 layui-col-md3">
+        		<div class="grid-demo grid-demo-bg1">
+				    <div class="layui-title">
+				    	<label class="layui-form-label">系别:</label>
+				    </div>
+				   	<div class="layui-center">
+				   		<div class="layui-input-block">
+					     	<select value="1" lay-filter="department_id" id="department_id"  name="department_id">
+			                    <option value="">请选择系</option>
+			                    <option value="1">计算机系</option>
+			                    <option value="2">管理系</option>
+			                    <option value="3">外语系</option>
+			                    <option value="4">游戏系</option>
+			                  </select>
+					    </div>
+				   	</div> 
+		      	</div>
+    		</div>
+    		<div class="layui-col-xs6 layui-col-sm3 layui-col-md3">
+        		<div class="grid-demo grid-demo-bg1">
+				    <div class="layui-title">
+				    	<label class="layui-form-label">专业:</label>
+				    </div>
+				   	<div class="layui-center">
+				   		<div class="layui-input-block">
+					     	<select value="1" lay-filter="science_id" id="science_id" name="science_id">
+			                    <option data-dep="1" value="">请选择专业</option>
+			                    <option data-dep="1" value="1">计算机科学与技术</option>
+			                    <option data-dep="1" value="2">软件工程</option>
+			                    <option data-dep="2" value="3">工商管理</option>
+			                    <option data-dep="2" value="4">人力资源管理专业</option>
+			                    <option data-dep="3" value="5">英语</option>
+			                    <option data-dep="3" value="6">日语</option>
+			                    <option data-dep="4" value="7">动画</option>
+			                    <option data-dep="4" value="8">数字媒体</option>
+			                </select>
+					    </div>
+				   	</div> 
+		      	</div>
+    		</div>
+    		<div class="layui-col-xs6 layui-col-sm3 layui-col-md3">
+        		<div class="grid-demo grid-demo-bg1">
+				    <div class="layui-title">
+				    	<label class="layui-form-label">教学班:</label>
+				    </div>
+				   	<div class="layui-center">
+				   		<div class="layui-input-block">
+					     	<select value="1" lay-filter="class_id" id="class_id"  name="class_id">
+			                    <option data-sci="" value="">请选择班级</option>
+			                    <option data-sci="1" value="1">web1</option>
+			                    <option data-sci="1" value="2">web2</option>
+			                    <option data-sci="2" value="3">软工1</option>
+			                    <option data-sci="2" value="4">软工2</option>
+			                    <option data-sci="3" value="5">工管1</option>
+			                    <option data-sci="3" value="6">工管2</option>
+			                    <option data-sci="4" value="7">HR1</option>
+			                    <option data-sci="4" value="8">HR2</option>
+			                    <option data-sci="5" value="9">英语1</option>
+			                    <option data-sci="5" value="10">英语2</option>
+			                    <option data-sci="6" value="11">日语1</option>
+			                    <option data-sci="6" value="12">日语2</option>
+			                    <option data-sci="7" value="13">动画1</option>
+			                    <option data-sci="7" value="14">动画2</option>
+			                    <option data-sci="8" value="15">数媒1</option>
+			                    <option data-sci="8" value="16">数媒2</option>
+			                  </select>
+					    </div>
+				   	</div> 
+		      	</div>
+    		</div>
+    		<div class="layui-col-xs6 layui-col-sm3 layui-col-md3">
+        		<div class="grid-demo grid-demo-bg1">
+				    <div class="layui-title">
+				    	<label class="layui-form-label">学期:</label>
+				    </div>
+				   	<div class="layui-center">
+				   		<div class="layui-input-block">
+					     	<select value="1" lay-filter="term" id="term"  name="term">
+			                    <option value="">请选择学期</option>
+			                    <option value="201801">201801</option>
+			                    <option value="201802">201802</option>
+			                    <option value="201901">201901</option>
+			                    <option value="201902">201902</option>
+			                  </select>
+					    </div>
+				   	</div> 
+		      	</div>
+    		</div>
+        </div>
+    	  <table class="layui-table">
+			  <colgroup>
+			    <col width="16.6%">
+			    <col width="16.6%">
+			    <col width="16.6%">
+			    <col width="16.6%">
+			    <col width="16.6%">
+			    <col width="16.6%">
+			  </colgroup>
+			  <thead>
+			    <tr>
+			      <th>时间\日期</th>
+			      <th>星期一</th>
+			      <th>星期二</th>
+			      <th>星期三</th>
+			      <th>星期四</th>
+			      <th>星期五</th>
+			    </tr> 
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td>9:00~10:20</td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			    </tr>
+			    <tr>
+			      <td>10:40~12:00</td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			    </tr>
+			    <tr>
+			      <td>14:00~15~20</td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			    </tr>
+			    <tr>
+			      <td>15:40~17:00</td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			    </tr>
+			    <tr>
+			      <td>19:00~20:20</td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			      <td></td>
+			    </tr>
+			  </tbody>
+			</table>
+          <div class="">
+				<!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
+				<button lay-submit lay-filter="addClassTable" style="float: right;margin-right: px;" class="layui-btn" >保存</button>
+			</div>
+      </form>
+    </div>
+	<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+    <script>
+        layui.use(['form','layer', 'jquery'], function(){
+          	var form = layui.form,
+				$ = layui.jquery,
+          		layer = layui.layer;
+          	var classSelectListHtml = "<select lay-search>";
+          	classSelectListHtml += "<option value=''> </option>";
+			$.ajax({
+	            url: '../../php/api.php?api=querySubjectsList',
+	            type: 'post',
+	            data: "data={}",
+	            dataType: 'JSON',
+	            async: false,
+	            success: function (result) {
+	            	if(result.code == 0){
+	            		var info = result.data;
+	            		for (var item of info) {
+	            			classSelectListHtml += "<option value="+ item.subject_id +">"+item.subject_name+"</option>";
+	            		}
+	            		classSelectListHtml += "</select>";
+	            		$("td").each(function(){
+	            			if(this.innerHTML==""){
+	            				$(this).append(classSelectListHtml);
+	            			}
+	            		});
+	            		form.render();
+	            	}
+	            }
+	        });
+	        //监听提交
+	        form.on('submit(addClassTable)', function(data){
+//	            console.log(data.field);
+//				var indexLoad = layer.load(2); 
+	            var postData = {};
+	            var timeTable = [];
+	            $.each($("tbody").find("tr"), function(no,ele) {
+	            	$.each($(this).find("select"), function(day,dom) {
+	            		if($(this).val() !=""){
+	            			var item = {};
+	            			item.day = day;
+	            			item.no = no;
+	            			item.subjects_id = $(this).val();
+	            			timeTable.push(item);
+	            		}
+	            	});
+	            });
+	            postData.timeTable = JSON.stringify(timeTable);
+	            postData.class_id = $("#class_id").val();
+	            postData.term = $("#term").val();
+	            $.ajax({
+		            url: '../../php/api.php?api=addClassTable',
+		            type: 'post',
+		            data: "data="+JSON.stringify(postData),
+		            dataType: 'JSON',
+		            success: function (result) {
+		            	if(result.code==0){
+		            		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+							parent.layer.close(index); //再执行关闭 
+							layer.msg('!', {
+								icon: 1,
+								time: 2000
+							});
+		            	}else{
+		            		layer.msg('添加失败!', {
+								icon: 2,
+								time: 2000
+							});
+		            	}
+		            	layer.close(indexLoad);
+		            }
+		        });
+	            //发异步，把数据提交给php
+//	            layer.alert("增加成功", {icon: 6},function () {
+//	                // 获得frame索引
+//	                var index = parent.layer.getFrameIndex(window.name);
+//	                //关闭当前frame
+//	                parent.layer.close(index);
+//	            });
+	            return false;
+	        }); 
+	        
+	        function bindEvent(){
+	        	$("#department_id").find("option").each(function(){
+	        		console.log($(this))
+	        	});
+	        	$("#science_id").find("option").each(function(){
+	        		if(this.dataset.dep == $("#department_id").val()){
+	        			$(this).show()
+	        		}else{
+	        			$(this).hide()
+	        		}
+	        		console.log(this.dataset.dep)
+	        	});
+	        	$("#class_id").find("option").each(function(){
+	        		if(this.dataset.sci == $("#science_id").val()){
+	        			$(this).show()
+	        		}else{
+	        			$(this).hide()
+	        		}
+	        	});
+	        	form.render();
+	        }
+        });
+    </script>
+  </body>
+
+</html>

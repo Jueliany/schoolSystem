@@ -12,12 +12,14 @@
     require_once('student.php'); 
     require_once('reward.php'); 
     require_once('subjects.php'); 
+    require_once('class.php'); 
     $api_url = @$_GET['api'];
 
     $login = new Login();
     $student = new Student();
     $reward = new Reward();
     $subjects = new Subjects();
+    $classTable = new ClassTable();
     switch($api_url)//调用相应接口
     {
         case 'loginAdmin':echo $login -> loginAdmin();break;
@@ -36,6 +38,10 @@
         case 'addSubjects':echo $subjects -> addSubjects();break;
         case 'deleteSubjects':echo $subjects -> deleteSubjects();break;
         case 'updateSubjects':echo $subjects -> updateSubjects();break;
+        case 'queryClassTableList':echo $classTable -> queryClassTableList();break;
+        case 'addClassTable':echo $classTable -> addClassTable();break;
+        case 'deleteClassTable':echo $classTable -> deleteClassTable();break;
+        case 'updateClassTable':echo $classTable -> updateClassTable();break;
     }
     
 ?>
