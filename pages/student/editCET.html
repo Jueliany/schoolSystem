@@ -23,6 +23,7 @@
   <body>
     <div class="weadmin-body">
         <form class="layui-form">
+      		<input id="dataId" name="id" style="display: none;" type="text"/>
     	  <div class="layui-form-item">
               <label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>学号</label>
               <div class="layui-input-inline">
@@ -30,38 +31,33 @@
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>获奖等级</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>证书等级</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="reward_level" name="reward_level" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="cet_level" name="cet_level" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>获奖名称</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>分数</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="reward_name" name="reward_name" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="score" name="score" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>奖项</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>颁发时间</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required"  type="text" id="reward_type" name="reward_type"  class="layui-input">
+                  <input lay-verify="required"  type="text" id="time" name="time"  class="layui-input">
               </div>
           </div>
+          
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>获奖时间</label>
+              <!--<label for="categoryName" class="layui-form-label"><span class="we-red">*</span>地址</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="datetime" name="datetime" autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>组织单位</label>
-              <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="organization" name="organization" autocomplete="off" class="layui-input">
-              </div>
+                  <input lay-verify="required" type="text" id="categoryName" name="address" autocomplete="off" class="layui-input">
+              </div>-->
           </div>
           <div class="">
 				<!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
-				<button lay-submit lay-filter="addReward" style="float: right;margin-right: px;" class="layui-btn" >保存</button>
+				<button lay-submit lay-filter="addCET" style="float: right;margin-right: px;" class="layui-btn" >保存</button>
 			</div>
       </form>
     </div>
@@ -73,36 +69,53 @@
 				laydate = layui.laydate,
           		layer = layui.layer;
 			laydate.render({ 
-			  elem: '#datetime'
+			  elem: '#time'
 			  //,type: 'date' //默认，可不填
 			});
+			var postData = {};
+          	postData.id = $("#dataId").val();
+			$.ajax({
+	            url: '../../php/api.php?api=queryCETList',
+	            type: 'post',
+	            data: "data="+JSON.stringify(postData),
+	            dataType: 'JSON',
+	            success: function (result) {
+	            	if(result.code == 0){
+	            		var info = result.data[0];
+	            		$("#stu_id").val(info.stu_id);
+	            		$("#cet_level").val(info.cet_level);
+	            		$("#score").val(info.score);
+	            		$("#time").val(info.time);
+	            	}
+	            }
+	        });
 	        //监听提交
-	        form.on('submit(addReward)', function(data){
+	        form.on('submit(addCET)', function(data){
 //	            console.log(data.field);
 				var indexLoad = layer.load(2); 
 	            var postData = data.field;
 	            
 	            $.ajax({
-		            url: '../../php/api.php?api=addReward',
+		            url: '../../php/api.php?api=updateCET',
 		            type: 'post',
 		            data: "data="+JSON.stringify(postData),
 		            dataType: 'JSON',
 		            success: function (result) {
 		            	if(result.code==0){
 		            		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-//							
-							layer.msg('添加成功!', {
+							parent.layer.close(index); //再执行关闭 
+							layer.msg('编辑成功!', {
 								icon: 1,
 								time: 2000
 							});
-							parent.layer.close(index); //再执行关闭 
+							layer.close(indexLoad);
 		            	}else{
-		            		layer.msg('添加失败!', {
+		            		layer.msg('编辑失败!', {
 								icon: 1,
 								time: 2000
 							});
 		            	}
-		            	layer.close(indexLoad);
+		            	
 		            }
 		        });
 	            //发异步，把数据提交给php

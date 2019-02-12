@@ -30,38 +30,38 @@
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>获奖等级</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>比赛名称</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="reward_level" name="reward_level" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="match_name" name="match_name" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>获奖名称</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>比赛等级</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="reward_name" name="reward_name" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="match_level" name="match_level" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>奖项</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>比赛时间</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required"  type="text" id="reward_type" name="reward_type"  class="layui-input">
+                  <input lay-verify="required"  type="text" id="match_time" name="match_time"  class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>获奖时间</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>作品名称</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="datetime" name="datetime" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="match_works" name="match_works" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>组织单位</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>指导老师</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="organization" name="organization" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="teacher" name="teacher" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="">
 				<!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
-				<button lay-submit lay-filter="addReward" style="float: right;margin-right: px;" class="layui-btn" >保存</button>
+				<button lay-submit lay-filter="addMatch" style="float: right;margin-right: px;" class="layui-btn" >保存</button>
 			</div>
       </form>
     </div>
@@ -73,17 +73,17 @@
 				laydate = layui.laydate,
           		layer = layui.layer;
 			laydate.render({ 
-			  elem: '#datetime'
+			  elem: '#match_time'
 			  //,type: 'date' //默认，可不填
 			});
 	        //监听提交
-	        form.on('submit(addReward)', function(data){
+	        form.on('submit(addMatch)', function(data){
 //	            console.log(data.field);
 				var indexLoad = layer.load(2); 
 	            var postData = data.field;
 	            
 	            $.ajax({
-		            url: '../../php/api.php?api=addReward',
+		            url: '../../php/api.php?api=addMatch',
 		            type: 'post',
 		            data: "data="+JSON.stringify(postData),
 		            dataType: 'JSON',

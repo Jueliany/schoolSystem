@@ -1,8 +1,8 @@
 <?php
 // include "public/public_db.php";
-    class Reward{
-      //查询学生
-      function queryRewardList(){
+    class Certificate{
+      //查询课程
+      function queryCertificateList(){
         $coon = new db();
         $kl = "";
         $postData = $_POST['data'];
@@ -13,14 +13,14 @@
           $num = count($arrayKeys); 
           for($i=0;$i<$num;++$i){ 
             if($i != $num-1){
-              $kl = $kl ." and stu.". $arrayKeys[$i]. "='".$arrayValues[$i] ."'" . ","; 
+              $kl = $kl ." and ". $arrayKeys[$i]. "='".$arrayValues[$i] ."'" . ""; 
             }else{
-              $kl = $kl ." and stu.". $arrayKeys[$i]. "='".$arrayValues[$i] ."'" ; 
+              $kl = $kl ." and ". $arrayKeys[$i]. "='".$arrayValues[$i] ."'" ; 
             }
           } 
         }
           
-        $sql="SELECT * from reward rew,student stu,science sci where rew.stu_id = stu.student_id and stu.science_id = sci.science_id  $kl";
+        $sql="SELECT * from certificate ce,student stu,science sci where stu.student_id=ce.stu_id and  stu.science_id = sci.science_id $kl";
         $row = $coon->Query($sql, 1);
         // 找到数据
         if($row) {
@@ -35,7 +35,7 @@
         // return  $sql;
       }
 
-      function queryReward(){
+      function queryCertificate(){
         $coon = new db();
         $kl = "";
         $postData = $_POST['data'];
@@ -47,8 +47,8 @@
           $kl = $kl ."". $arrayKeys[0]. "='".$arrayValues[0] ."'" ; 
         }
         
-        $sql="SELECT * from reward where  $kl";
-        $row = $coon->Query($sql, 1);
+        $sql="SELECT * from certificate ce where  $kl";
+        $row = $coon->Query($sql, 2);
         // 找到数据
         if($row) {
            // $arr = array($row);
@@ -62,28 +62,28 @@
         // return  $sql;
       }
 
-      //增加学生
-      function addReward(){
+      //增加课程
+      function addCertificate(){
         $postData = $_POST['data'];
         $data = json_decode($postData,true);
         $coon = new db();
-        return $coon->Insert("reward",$data,false);
+        return $coon->Insert("certificate",$data,false);
       }
 
-      //删除学生
-      function deleteReward(){
+      //删除课程
+      function deleteCertificate(){
         $postData = $_POST['data'];
         $data = json_decode($postData,true);
         $coon = new db();
-        return $coon->Delete("reward",$data);
+        return $coon->Delete("certificate",$data);
       }
 
-      //修改学生信息
-      function updateReward(){
+      //修改学生课程
+      function updateCertificate(){
         $postData = $_POST['data'];
         $data = json_decode($postData,true);
         $coon = new db();
-        return $coon->Update("reward",$data,false);
+        return $coon->Update("certificate",$data,false);
       }
 
     }

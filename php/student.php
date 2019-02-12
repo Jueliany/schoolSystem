@@ -20,7 +20,7 @@
           } 
         }
           
-        $sql="SELECT * from student stu,department dep,science sci,class cla where stu.department_id = dep.id and stu.science_id = sci.id and stu.class_id = cla.id  $kl";
+        $sql="SELECT * from student stu,department dep,science sci,class cla where stu.department_id = dep.id and stu.science_id = sci.science_id and stu.class_id = cla.id  $kl";
         $row = $coon->Query($sql, 1);
         // 找到数据
         if($row) {

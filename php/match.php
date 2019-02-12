@@ -1,8 +1,8 @@
 <?php
 // include "public/public_db.php";
-    class Subjects{
+    class Match{
       //查询课程
-      function querySubjectsList(){
+      function queryMatchList(){
         $coon = new db();
         $kl = "";
         $postData = $_POST['data'];
@@ -20,7 +20,7 @@
           } 
         }
           
-        $sql="SELECT * from subjects where 1=1 $kl";
+        $sql="SELECT * from matchs em,student stu,science sci where stu.student_id=em.stu_id and  stu.science_id = sci.science_id $kl";
         $row = $coon->Query($sql, 1);
         // 找到数据
         if($row) {
@@ -35,7 +35,7 @@
         // return  $sql;
       }
 
-      function querySubjects(){
+      function queryMatch(){
         $coon = new db();
         $kl = "";
         $postData = $_POST['data'];
@@ -47,7 +47,7 @@
           $kl = $kl ."". $arrayKeys[0]. "='".$arrayValues[0] ."'" ; 
         }
         
-        $sql="SELECT * from subjects where  $kl";
+        $sql="SELECT * from matchs ce where  $kl";
         $row = $coon->Query($sql, 2);
         // 找到数据
         if($row) {
@@ -63,27 +63,27 @@
       }
 
       //增加课程
-      function addSubjects(){
+      function addMatch(){
         $postData = $_POST['data'];
         $data = json_decode($postData,true);
         $coon = new db();
-        return $coon->Insert("subjects",$data,false);
+        return $coon->Insert("matchs",$data,false);
       }
 
       //删除课程
-      function deleteSubjects(){
+      function deleteMatch(){
         $postData = $_POST['data'];
         $data = json_decode($postData,true);
         $coon = new db();
-        return $coon->Delete("subjects",$data);
+        return $coon->Delete("matchs",$data);
       }
 
       //修改学生课程
-      function updateSubjects(){
+      function updateMatch(){
         $postData = $_POST['data'];
         $data = json_decode($postData,true);
         $coon = new db();
-        return $coon->Update("subjects",$data,false);
+        return $coon->Update("matchs",$data,false);
       }
 
     }

@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>学生获奖信息管理</title>
+		<title>专业比赛信息管理</title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -68,14 +68,14 @@
 					</div>
 					<div class="layui-inline" style="margin: 0;" >
 						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="sreach" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>	
-						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加学生获奖信息','./addReward.html',500,500)"><i class="layui-icon"></i>添加</button>
+						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加专业比赛信息','./addMajorMatch.html',500,500)"><i class="layui-icon"></i>添加</button>
 						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="export" lay-filter="export">导出</button>	
 						
 					</div>
 					</form>
 			</div>
 			
-			<table class="layui-table" id="RewardList">
+			<table class="layui-table" id="MatchList">
 				<script type="text/html" id="operateTpl">
 					<!--<a title="编辑" class="updateStudent"  onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 600)" href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
@@ -104,6 +104,8 @@
 				admin = layui.admin,
 				form = layui.form;
 				
+				
+				
 			getDate();
 			
 			$("#sreach").on("click",function(){
@@ -125,14 +127,14 @@
 					postData.science_id = $("#science_id").val() ;
 				}
 				 $.ajax({
-		            url: '../../php/api.php?api=queryRewardList',
+		            url: '../../php/api.php?api=queryMatchList',
 		            type: 'post',
 		            data: "data="+JSON.stringify(postData),
 		            dataType: 'JSON',
 		            success: function (result) {
 		            	console.log(result)
 		            	table.render({
-							elem: '#RewardList',
+							elem: '#MatchList',
 							cellMinWidth: 80,
 							cols: [
 								[{
@@ -146,15 +148,15 @@
 								}, {
 									field: 'science_name',title: '专业'
 								}, {
-									field: 'reward_level',title: '获奖等级'
+									field: 'match_name',title: '比赛名称'
 								}, {
-									field: 'reward_name',title: '获奖名称'
+									field: 'match_level',title: '比赛等级'
 								}, {
-									field: 'reward_type',title: '奖项'
-								}, {
-									field: 'datetime',title: '获奖时间'
-								}, {
-									field: 'organization',title: '组织单位'
+									field: 'match_time',title: '比赛时间'
+								},{
+									field: 'match_works',title: '作品名称'
+								},{
+									field: 'teacher',title: '指导老师'
 								}, {
 									field: 'set',title: '操作',toolbar: '#operateTpl',unresize: true
 								}]
@@ -183,7 +185,7 @@
 						var indexLoad = layer.load(2); 
 						$.ajax({
 							type:"post",
-							url:"../../php/api.php?api=deleteCET",
+							url:"../../php/api.php?api=deleteMatch",
 							data: "data=" + JSON.stringify(postData),
 	            			dataType: 'JSON',
 							async:false,
@@ -210,7 +212,7 @@
 //				修改信息
 				$(".updateStudent").on('click',function() {
 					var that = this;
-					WeAdminEdit('修改考证信息','./editReward.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 400)
+					WeAdminEdit('专业比赛信息','./editMajorMatch.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 500)
 //					
 				});
 				form.render();

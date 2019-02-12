@@ -64,6 +64,7 @@
           } 
           $conn = new db();
           $sql = "INSERT INTO $tableName (".$kl.") VALUES (".$vl.")";
+          // return  $sql;
           $result = "";
           if ($db->query($sql) === TRUE) {
               $result = array("code"=>"0", "msg"=> "插入成功");;
