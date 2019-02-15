@@ -164,6 +164,34 @@
 	            	}
 	            }
 	        });
+	        $("#resetPassword").click(function(){
+	        	var postData = {};
+	        	postData.student_id = $("#student_id").val();
+	        	postData.password = $("#idcard_number").text().substring($("#idcard_number").text().length-6);
+				var indexLoad = layer.load(2); 
+	        	$.ajax({
+					type:"post",
+					url:"../../php/api.php?api=updateStudent",
+					data: "data=" + JSON.stringify(postData),
+        			dataType: 'JSON',
+					async:false,
+					success: function(result){
+						console.log(result)
+						if(result.code == 0){
+							layer.msg('密码已重置为身份证后六位!', {
+								icon: 1,
+								time: 2000
+							});
+						}else{
+							layer.msg(result.msg, {
+								icon: 1,
+								time: 2000
+							});
+						}
+						layer.close(indexLoad);
+					}
+				});
+	        });
 	        //监听提交
 	        form.on('submit(updateStudent)', function(data){
 //	            console.log(data.field);

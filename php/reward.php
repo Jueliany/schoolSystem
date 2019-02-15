@@ -62,7 +62,7 @@
         // return  $sql;
       }
 
-      //增加学生
+      //增加获奖记录
       function addReward(){
         $postData = $_POST['data'];
         $data = json_decode($postData,true);
@@ -70,7 +70,7 @@
         return $coon->Insert("reward",$data,false);
       }
 
-      //删除学生
+      //删除获奖记录
       function deleteReward(){
         $postData = $_POST['data'];
         $data = json_decode($postData,true);
@@ -78,7 +78,7 @@
         return $coon->Delete("reward",$data);
       }
 
-      //修改学生信息
+      //修改获奖记录
       function updateReward(){
         $postData = $_POST['data'];
         $data = json_decode($postData,true);

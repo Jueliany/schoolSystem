@@ -160,13 +160,11 @@
 							event: true,
 							page: true
 						});
+						data = result.data;
 						bindEvent();
 		            }
 		        });
 			}
-				
-			
-			 
 			
 			function bindEvent(){
 				
@@ -212,6 +210,59 @@
 				});
 				form.render();
 			}
+			
+			$("#export").on("click",function(){
+				if(data.length > 0){
+					tableToExcel(data);
+				}else{
+					layer.msg('数据为空!', {
+							icon: 1,
+							time: 2000
+						});
+				}
+				
+			});
+			
+			function tableToExcel(jsonData){
+		      //要导出的json数据
+		      //列标题
+		      var str = '<tr><td>编号</td><td>学号</td><td>年级</td><td>姓名</td><td>专业</td><td>就业单位</td><td>就业岗位</td><td>就业时间</td><td>就业待遇</td><td>所需技能</td><td>就业单位</td><td>电话号码</td></tr>';
+		      //循环遍历，每行加入tr标签，每个单元格加td标签
+		      for(let item  of jsonData ){
+		        str+='<tr>';
+		        str+= '<td>'+item.id+'</td>';
+		        str+= '<td>'+item.stu_id+'</td>';
+		        str+= '<td>'+item.grade+'</td>';
+		        str+= '<td>'+item.name+'</td>';
+		        str+= '<td>'+item.science_name+'</td>';
+		        str+= '<td>'+item.company+'</td>';
+		        str+= '<td>'+item.post+'</td>';
+		        str+= '<td>'+item.time+'</td>';
+		        str+= '<td>'+item.salary+'</td>';
+		        str+= '<td>'+item.ability+'</td>';
+		        str+= '<td>'+item.company_address+'</td>';
+		        str+= '<td>'+item.company_number+'</td>';
+		        str+='</tr>';
+		      }
+		      //Worksheet名
+		      var worksheet = 'Sheet1'
+		      var uri = 'data:application/vnd.ms-excel;base64,';
+		 		console.log(str)
+		      //下载的表格模板数据
+		      var template = `<html xmlns:o="urn:schemas-microsoft-com:office:office" 
+		      xmlns:x="urn:schemas-microsoft-com:office:excel" 
+		      xmlns="http://www.w3.org/TR/REC-html40">
+		      <head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
+		        <x:Name>${worksheet}</x:Name>
+		        <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>
+		        </x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+		        </head><body><table>${str}</table></body></html>`;
+		      //下载模板
+		      window.location.href = uri + base64(template)
+		    }
+		    //输出base64编码
+    		function base64 (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+		
 		});
 
 		

@@ -103,6 +103,7 @@
 					<div class="layui-inline" style="margin: 0;" >
 						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="sreach" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>	
 						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加学生','./add.html',450,600)"><i class="layui-icon"></i>添加</button>
+						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="export" lay-filter="export">导出</button>	
 			
 					</div>
 					</form>
@@ -145,7 +146,10 @@
 				getDate();
 			});
 			
+			var data = [];
+			
 			function getDate(){
+				
 				var postData = {};
 				if($("#student_id").val() != ""){
 					postData.student_id = $("#student_id").val() ;
@@ -204,6 +208,7 @@
 							page: true
 						});
 						bindEvent();
+						data = result.data;
 		            }
 		        });
 			}
@@ -211,8 +216,6 @@
 
 			
 			function bindEvent(){
-				
-				
 				/*用户-删除*/
 				$(".deleteStudent").on('click',function() {
 					var that = this;
@@ -254,6 +257,55 @@
 				});
 				form.render();
 			}
+			
+			$("#export").on("click",function(){
+				if(data.length > 0){
+					tableToExcel(data);
+				}else{
+					layer.msg('数据为空!', {
+							icon: 1,
+							time: 2000
+						});
+				}
+				
+			});
+			
+			function tableToExcel(jsonData){
+		      //要导出的json数据
+		      //列标题
+		      var str = '<tr><td>学号</td><td>姓名</td><td>性别</td><td>年级</td><td>系别</td><td>专业</td><td>班级</td><td>电话</td></tr>';
+		      //循环遍历，每行加入tr标签，每个单元格加td标签
+		      for(let item  of jsonData ){
+		        str+='<tr>';
+		        str+= '<td>'+item.student_id+'</td>';
+		        str+= '<td>'+item.name+'</td>';
+		        str+= '<td>'+item.sex+'</td>';
+		        str+= '<td>'+item.grade+'</td>';
+		        str+= '<td>'+item.department_name+'</td>';
+		        str+= '<td>'+item.science_name+'</td>';
+		        str+= '<td>'+item.class_name+'</td>';
+		        str+= '<td>'+item.telephone+'</td>';
+		        str+='</tr>';
+		      }
+		      //Worksheet名
+		      var worksheet = 'Sheet1'
+		      var uri = 'data:application/vnd.ms-excel;base64,';
+		 		console.log(str)
+		      //下载的表格模板数据
+		      var template = `<html xmlns:o="urn:schemas-microsoft-com:office:office" 
+		      xmlns:x="urn:schemas-microsoft-com:office:excel" 
+		      xmlns="http://www.w3.org/TR/REC-html40">
+		      <head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
+		        <x:Name>${worksheet}</x:Name>
+		        <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>
+		        </x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+		        </head><body><table>${str}</table></body></html>`;
+		      //下载模板
+		      window.location.href = uri + base64(template)
+		    }
+		    //输出base64编码
+    		function base64 (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+		
 		});
 
 		
