@@ -168,10 +168,6 @@
 		            }
 		        });
 			}
-				
-			
-			 
-			
 			function bindEvent(){
 				/*用户-删除*/
 				$(".deleteStudent").on('click',function() {
@@ -230,7 +226,8 @@
 			function tableToExcel(jsonData){
 		      //要导出的json数据
 		      //列标题
-		      var str = '<tr><td>编号</td><td>学号</td><td>年级</td><td>姓名</td><td>专业</td><td>就业单位</td><td>就业岗位</td><td>就业时间</td><td>就业待遇</td><td>所需技能</td><td>就业单位</td><td>电话号码</td></tr>';
+		      console.log(jsonData)
+		      var str = '<tr><td>编号</td><td>学号</td><td>年级</td><td>姓名</td><td>专业</td><td>获奖等级</td><td>获奖名称</td><td>奖项</td><td>获奖时间</td><td>组织单位</td></tr>';
 		      //循环遍历，每行加入tr标签，每个单元格加td标签
 		      for(let item  of jsonData ){
 		        str+='<tr>';
@@ -239,13 +236,11 @@
 		        str+= '<td>'+item.grade+'</td>';
 		        str+= '<td>'+item.name+'</td>';
 		        str+= '<td>'+item.science_name+'</td>';
-		        str+= '<td>'+item.company+'</td>';
-		        str+= '<td>'+item.post+'</td>';
-		        str+= '<td>'+item.time+'</td>';
-		        str+= '<td>'+item.salary+'</td>';
-		        str+= '<td>'+item.ability+'</td>';
-		        str+= '<td>'+item.company_address+'</td>';
-		        str+= '<td>'+item.company_number+'</td>';
+		        str+= '<td>'+item.reward_level+'</td>';
+		        str+= '<td>'+item.reward_name+'</td>';
+		        str+= '<td>'+item.reward_type+'</td>';
+		        str+= '<td>'+item.datetime+'</td>';
+		        str+= '<td>'+item.organization+'</td>';
 		        str+='</tr>';
 		      }
 		      //Worksheet名
