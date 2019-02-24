@@ -24,12 +24,7 @@
     <div class="weadmin-body">
         <form class="layui-form">
       		<input id="dataId" name="id" style="display: none;" type="text"/>
-    	  <div class="layui-form-item">
-              <label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>学号</label>
-              <div class="layui-input-inline">
-                  <input lay-verify="required" disabled="true" type="text" id="stu_id" name="stu_id" autocomplete="off" class="layui-input">
-              </div>
-          </div>
+    	  
           <div class="layui-form-item">
               <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>比赛名称</label>
               <div class="layui-input-inline">
@@ -87,7 +82,6 @@
 	            success: function (result) {
 	            	if(result.code == 0){
 	            		var info = result.data[0];
-	            		$("#stu_id").val(info.stu_id);
 	            		$("#match_name").val(info.match_name);
 	            		$("#match_level").val(info.match_level);
 	            		$("#match_time").val(info.match_time);
@@ -109,20 +103,22 @@
 		            dataType: 'JSON',
 		            success: function (result) {
 		            	if(result.code==0){
-		            		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-							parent.layer.close(index); //再执行关闭 
 							layer.msg('编辑成功!', {
 								icon: 1,
 								time: 2000
+							}, function(){
+								// 获得frame索引
+				                var index = parent.layer.getFrameIndex(window.name);
+				                //关闭当前frame
+				                parent.layer.close(index);
 							});
-							layer.close(indexLoad);
 		            	}else{
 		            		layer.msg('编辑失败!', {
 								icon: 1,
 								time: 2000
 							});
 		            	}
-		            	
+		            	parent.layer.close(indexLoad);
 		            }
 		        });
 	            //发异步，把数据提交给php

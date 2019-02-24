@@ -23,52 +23,29 @@
   <body>
     <div class="weadmin-body">
         <form class="layui-form">
-    	  <div class="layui-form-item" style="display: none;">
+      		<input id="dataId" name="id" style="display: none;" type="text"/>
+    	  <div class="layui-form-item">
               <label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>学号</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="stu_id" name="stu_id" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" disabled="true" type="text" id="stu_id" name="stu_id" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>就业单位</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>证书名称</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="company" name="company" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="certificate_name" name="certificate_name" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>就业岗位</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>颁发单位</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="post" name="post" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="issue_unit" name="issue_unit" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>就业时间</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>颁发时间</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required"  type="text" id="time" name="time"  class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>就业待遇</label>
-              <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="salary" name="salary" autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>所需技能</label>
-              <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="ability" name="ability" autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>就业单位地址</label>
-              <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="company_address" name="company_address" autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>电话号码</label>
-              <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="company_number" name="company_number" autocomplete="off" class="layui-input">
+                  <input lay-verify="required"  type="text" id="issue_time" name="issue_time"  class="layui-input">
               </div>
           </div>
           
@@ -80,7 +57,7 @@
           </div>
           <div class="">
 				<!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
-				<button lay-submit lay-filter="addEmployment" style="float: right;margin-right: px;" class="layui-btn" >保存</button>
+				<button lay-submit lay-filter="addStudent" style="float: right;margin-right: px;" class="layui-btn" >保存</button>
 			</div>
       </form>
     </div>
@@ -92,26 +69,40 @@
 				laydate = layui.laydate,
           		layer = layui.layer;
 			laydate.render({ 
-			  elem: '#time'
+			  elem: '#issue_time'
 			  //,type: 'date' //默认，可不填
 			});
-			$("#stu_id").val(sessionStorage.getItem('id'))
+			var postData = {};
+          	postData.id = $("#dataId").val();
+			$.ajax({
+	            url: '../../php/api.php?api=queryCertificate',
+	            type: 'post',
+	            data: "data="+JSON.stringify(postData),
+	            dataType: 'JSON',
+	            success: function (result) {
+	            	if(result.code == 0){
+	            		var info = result.data;
+	            		$("#stu_id").val(info.stu_id);
+	            		$("#issue_unit").val(info.issue_unit);
+	            		$("#certificate_name").val(info.certificate_name);
+	            		$("#issue_time").val(info.issue_time);
+	            	}
+	            }
+	        });
 	        //监听提交
-			$("#stu_id").val(sessionStorage.getItem('id'))
-	        form.on('submit(addEmployment)', function(data){
+	        form.on('submit(addStudent)', function(data){
 //	            console.log(data.field);
 				var indexLoad = layer.load(2); 
 	            var postData = data.field;
 	            
 	            $.ajax({
-		            url: '../../php/api.php?api=addEmployment',
+		            url: '../../php/api.php?api=updateCertificate',
 		            type: 'post',
 		            data: "data="+JSON.stringify(postData),
 		            dataType: 'JSON',
 		            success: function (result) {
 		            	if(result.code==0){
-//							 //再执行关闭 
-							layer.msg('添加成功!', {
+							layer.msg('编辑成功!', {
 								icon: 1,
 								time: 2000
 							}, function(){
@@ -120,13 +111,14 @@
 				                //关闭当前frame
 				                parent.layer.close(index);
 							});
+							layer.close(indexLoad);
 		            	}else{
-		            		layer.msg('添加失败!', {
+		            		layer.msg('编辑失败!', {
 								icon: 1,
 								time: 2000
 							});
+							layer.close(indexLoad);
 		            	}
-		            	layer.close(indexLoad);
 		            }
 		        });
 	            //发异步，把数据提交给php

@@ -24,59 +24,80 @@
     <div class="weadmin-body">
         <form class="layui-form">
     	  <div class="layui-form-item">
-              <label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>课程名</label>
+              <label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>学号</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="weight" name="subject_name" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="stu_id" name="stu_id" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>任教老师</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>证书名称</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="weight" name="teacher" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="certificate_name" name="certificate_name" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>课程介绍</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>颁发单位</label>
               <div class="layui-input-inline">
-                  <!--<input lay-verify="required" type="" id="provide"  autocomplete="off" class="layui-input">-->
-	             <textarea class="layui-textarea" name="provide" rows="3" cols="40"></textarea>
+                  <input lay-verify="required" type="text" id="issue_unit" name="issue_unit" autocomplete="off" class="layui-input">
               </div>
           </div>
-         
+          <div class="layui-form-item">
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>颁发时间</label>
+              <div class="layui-input-inline">
+                  <input lay-verify="required"  type="text" id="issue_time" name="issue_time"  class="layui-input">
+              </div>
+          </div>
+          
+          <div class="layui-form-item">
+              <!--<label for="categoryName" class="layui-form-label"><span class="we-red">*</span>地址</label>
+              <div class="layui-input-inline">
+                  <input lay-verify="required" type="text" id="categoryName" name="address" autocomplete="off" class="layui-input">
+              </div>-->
+          </div>
           <div class="">
 				<!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
-				<button lay-submit lay-filter="addSubjects" style="float: right;margin-right: px;" class="layui-btn" >保存</button>
+				<button lay-submit lay-filter="addStudent" style="float: right;margin-right: px;" class="layui-btn" >保存</button>
 			</div>
       </form>
     </div>
 	<script src="../../lib/layui/layui.js" charset="utf-8"></script>
     <script>
-        layui.use(['form','layer', 'jquery'], function(){
+        layui.use(['form','layer', 'jquery','laydate'], function(){
           	var form = layui.form,
 				$ = layui.jquery,
+				laydate = layui.laydate,
           		layer = layui.layer;
-			bindEvent();
+			laydate.render({ 
+			  elem: '#issue_time'
+			  //,type: 'date' //默认，可不填
+			});
 	        //监听提交
-	        form.on('submit(addSubjects)', function(data){
+	        form.on('submit(addStudent)', function(data){
 //	            console.log(data.field);
 				var indexLoad = layer.load(2); 
 	            var postData = data.field;
+	            
 	            $.ajax({
-		            url: '../../php/api.php?api=addSubjects',
+		            url: '../../php/api.php?api=addCertificate',
 		            type: 'post',
 		            data: "data="+JSON.stringify(postData),
 		            dataType: 'JSON',
 		            success: function (result) {
 		            	if(result.code==0){
 		            		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-							parent.layer.close(index); //再执行关闭 
-							layer.msg('新增课程成功!', {
+//							parent.layer.close(index); //再执行关闭 
+							layer.msg('添加成功!', {
 								icon: 1,
 								time: 2000
+							}, function(){
+								// 获得frame索引
+				                var index = parent.layer.getFrameIndex(window.name);
+				                //关闭当前frame
+				                parent.layer.close(index);
 							});
 		            	}else{
 		            		layer.msg('添加失败!', {
-								icon: 2,
+								icon: 1,
 								time: 2000
 							});
 		            	}
@@ -94,24 +115,7 @@
 	        }); 
 	        
 	        function bindEvent(){
-	        	$("#department_id").find("option").each(function(){
-	        		console.log($(this))
-	        	});
-	        	$("#science_id").find("option").each(function(){
-	        		if(this.dataset.dep == $("#department_id").val()){
-	        			$(this).show()
-	        		}else{
-	        			$(this).hide()
-	        		}
-	        		console.log(this.dataset.dep)
-	        	});
-	        	$("#class_id").find("option").each(function(){
-	        		if(this.dataset.sci == $("#science_id").val()){
-	        			$(this).show()
-	        		}else{
-	        			$(this).hide()
-	        		}
-	        	});
+	        	
 	        	form.render();
 	        }
         });

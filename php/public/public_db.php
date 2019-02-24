@@ -130,6 +130,23 @@
           return json_encode($result);
           
       }
+      //x修改
+      public function ChangePassword($tableName,$username,$password){
+          $db = new mysqli($this->host,$this->account,$this->pass,$this->db_name,$this->port);
+          $db->query("SET CHARACTER SET 'utf8'");//读库   
+          $db->query("SET NAMES 'utf8'");//写库 
+          
+          $conn = new db();
+          $sql = "update $tableName  set password = '$password' where student_id = '$username'";
+          $result = "";
+          if ($db->query($sql) === TRUE) {
+              $result = array("code"=>"0", "msg"=> "修改成功");;
+          } else {
+              $result = array("code"=>"1", "msg"=> "修改失败");;
+          }
+          return json_encode($result);
+          
+      }
 
   }
   

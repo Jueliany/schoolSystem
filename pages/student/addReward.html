@@ -23,7 +23,7 @@
   <body>
     <div class="weadmin-body">
         <form class="layui-form">
-    	  <div class="layui-form-item">
+    	  <div class="layui-form-item" style="display: none;">
               <label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>学号</label>
               <div class="layui-input-inline">
                   <input lay-verify="required" type="text" id="stu_id" name="stu_id" autocomplete="off" class="layui-input">
@@ -76,6 +76,7 @@
 			  elem: '#datetime'
 			  //,type: 'date' //默认，可不填
 			});
+			$("#stu_id").val(sessionStorage.getItem('id'))
 	        //监听提交
 	        form.on('submit(addReward)', function(data){
 //	            console.log(data.field);
@@ -94,8 +95,12 @@
 							layer.msg('添加成功!', {
 								icon: 1,
 								time: 2000
+							}, function(){
+								// 获得frame索引
+				                var index = parent.layer.getFrameIndex(window.name);
+				                //关闭当前frame
+				                parent.layer.close(index);
 							});
-							parent.layer.close(index); //再执行关闭 
 		            	}else{
 		            		layer.msg('添加失败!', {
 								icon: 1,

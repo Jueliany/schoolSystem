@@ -23,64 +23,45 @@
   <body>
     <div class="weadmin-body">
         <form class="layui-form">
-    	  <div class="layui-form-item" style="display: none;">
+    	  <div class="layui-form-item">
               <label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>学号</label>
               <div class="layui-input-inline">
                   <input lay-verify="required" type="text" id="stu_id" name="stu_id" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>就业单位</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>获奖等级</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="company" name="company" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="reward_level" name="reward_level" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>就业岗位</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>获奖名称</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="post" name="post" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="reward_name" name="reward_name" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>就业时间</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>奖项</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required"  type="text" id="time" name="time"  class="layui-input">
+                  <input lay-verify="required"  type="text" id="reward_type" name="reward_type"  class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>就业待遇</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>获奖时间</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="salary" name="salary" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="datetime" name="datetime" autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>所需技能</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>组织单位</label>
               <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="ability" name="ability" autocomplete="off" class="layui-input">
+                  <input lay-verify="required" type="text" id="organization" name="organization" autocomplete="off" class="layui-input">
               </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>就业单位地址</label>
-              <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="company_address" name="company_address" autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>电话号码</label>
-              <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="company_number" name="company_number" autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          
-          <div class="layui-form-item">
-              <!--<label for="categoryName" class="layui-form-label"><span class="we-red">*</span>地址</label>
-              <div class="layui-input-inline">
-                  <input lay-verify="required" type="text" id="categoryName" name="address" autocomplete="off" class="layui-input">
-              </div>-->
           </div>
           <div class="">
 				<!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
-				<button lay-submit lay-filter="addEmployment" style="float: right;margin-right: px;" class="layui-btn" >保存</button>
+				<button lay-submit lay-filter="addReward" style="float: right;margin-right: px;" class="layui-btn" >保存</button>
 			</div>
       </form>
     </div>
@@ -92,34 +73,29 @@
 				laydate = layui.laydate,
           		layer = layui.layer;
 			laydate.render({ 
-			  elem: '#time'
+			  elem: '#datetime'
 			  //,type: 'date' //默认，可不填
 			});
-			$("#stu_id").val(sessionStorage.getItem('id'))
 	        //监听提交
-			$("#stu_id").val(sessionStorage.getItem('id'))
-	        form.on('submit(addEmployment)', function(data){
+	        form.on('submit(addReward)', function(data){
 //	            console.log(data.field);
 				var indexLoad = layer.load(2); 
 	            var postData = data.field;
 	            
 	            $.ajax({
-		            url: '../../php/api.php?api=addEmployment',
+		            url: '../../php/api.php?api=addReward',
 		            type: 'post',
 		            data: "data="+JSON.stringify(postData),
 		            dataType: 'JSON',
 		            success: function (result) {
 		            	if(result.code==0){
-//							 //再执行关闭 
+		            		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+//							
 							layer.msg('添加成功!', {
 								icon: 1,
 								time: 2000
-							}, function(){
-								// 获得frame索引
-				                var index = parent.layer.getFrameIndex(window.name);
-				                //关闭当前frame
-				                parent.layer.close(index);
 							});
+							parent.layer.close(index); //再执行关闭 
 		            	}else{
 		            		layer.msg('添加失败!', {
 								icon: 1,

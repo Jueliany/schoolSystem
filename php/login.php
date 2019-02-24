@@ -40,7 +40,24 @@
         }
         return json_encode($array);
       }
-       
+       function changePassword(){
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $newpassword = $_POST['newpassword'];
+        $coon = new db();
+        $sql="SELECT * from student WHERE student_id = '$username' and password = '$password'";
+        $row = $coon->Query($sql, 2);
+        // 找到数据
+        if($row) {
+          
+          return $coon->ChangePassword("student",$username,$newpassword);
+          
+        } else {
+          $array = array("code"=>"2", "msg"=> "密码错误！！");
+          return json_encode($array);
+        }
+        
+      }
     }
     
   ?>

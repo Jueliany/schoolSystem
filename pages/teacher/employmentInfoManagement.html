@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>学生获奖信息管理</title>
+		<title>就业情况信息管理</title>
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -12,12 +12,6 @@
 		<style type="text/css">
 			.layui-table-page div{
 			  text-align: center !important;
-			}
-			.ce .layui-form-label{
-				width: 30% !important;
-			}
-			.ce .layui-input-inline{
-				width: 70% !important;
 			}
 		</style>
 		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
@@ -40,26 +34,55 @@
 		</div>
 		<div class="weadmin-body">
 			<div class="layui-row">
-				<form class="layui-form layui-col-md12 ce">
+				<form class="layui-form layui-col-md12 we-search">
+					<div class="layui-inline">
+	                  <select  lay-filter="grade" id="grade"  name="grade">
+	                    <option value="">请选择年级</option>
+	                    <option value="2016">2016</option>
+	                    <option value="2017">2017</option>
+	                    <option value="2018">2018</option>
+	                    <option value="2019">2019</option>
+	                  </select>
+					</div>
+					<div class="layui-inline">
+						<select  lay-filter="science_id" id="science_id" name="science_id">
+		                    <option data-dep="" value="">请选择专业</option>
+		                    <option data-dep="1" value="1">计算机科学与技术</option>
+		                    <option data-dep="1" value="2">软件工程</option>
+		                    <option data-dep="2" value="3">工商管理</option>
+		                    <option data-dep="2" value="4">人力资源管理专业</option>
+		                    <option data-dep="3" value="5">英语</option>
+		                    <option data-dep="3" value="6">日语</option>
+		                    <option data-dep="4" value="7">动画</option>
+		                    <option data-dep="4" value="8">数字媒体</option>
+		                  </select>
+					</div>
+					<div class="layui-inline">
+						<input class="layui-input" placeholder="姓名" name="end" id="name">
+					</div>
 					<div class="layui-inline" style="margin: 0;" >
-						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加个人获奖信息','./addReward.html',500,400)"><i class="layui-icon"></i>添加</button>
+						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="sreach" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>	
+						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加学生就业信息','./addEmployment.html',500,600)"><i class="layui-icon"></i>添加</button>
+						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="export" lay-filter="export">导出</button>	
 						
 					</div>
 					</form>
 			</div>
 			
-			<table class="layui-table" id="RewardList">
+			<table class="layui-table" id="employmentList">
 				<script type="text/html" id="operateTpl">
 					<!--<a title="编辑" class="updateStudent"  onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 600)" href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
 					</a>-->
-					<a title="编辑" class="updateStudent"  href="javascript:;">
-						<i class="layui-icon">&#xe642;</i>
+					<a title="查看" class="updateStudent"  href="javascript:;">
+						<i class="layui-icon">&#xe63c;</i>
 					</a>
-					
+					<a title="删除" class="deleteStudent"  href="javascript:;">
+						<i class="layui-icon">&#xe640;</i>
+					</a>
 				</script>
 			</table>
-			<a id="dlink" style="display:none;"></a>
+			
 		</div>
 	
 	</body>
@@ -75,27 +98,34 @@
 				admin = layui.admin,
 				form = layui.form;
 				
+				
+				
 			getDate();
 			
 			$("#sreach").on("click",function(){
 				getDate();
 			});
-			$("#export").click(function(){
-				
-			})
 			
 			function getDate(){
 				var postData = {};
-					postData.student_id = sessionStorage.getItem("id")
+				if($("#name").val() != ""){
+					postData.name = $("#name").val() ;
+				}
+				if($("#grade").val() != ""){
+					postData.grade = $("#grade").val() ;
+				}
+				if($("#science_id").val() != ""){
+					postData.science_id = $("#science_id").val() ;
+				}
 				 $.ajax({
-		            url: '../../php/api.php?api=queryRewardList',
+		            url: '../../php/api.php?api=queryEmploymentList',
 		            type: 'post',
 		            data: "data="+JSON.stringify(postData),
 		            dataType: 'JSON',
 		            success: function (result) {
 		            	console.log(result)
 		            	table.render({
-							elem: '#RewardList',
+							elem: '#employmentList',
 							cellMinWidth: 80,
 							cols: [
 								[{
@@ -109,16 +139,20 @@
 								}, {
 									field: 'science_name',title: '专业'
 								}, {
-									field: 'reward_level',title: '获奖等级'
+									field: 'company',title: '就业单位'
+								},{
+									field: 'post',title: '就业岗位'
 								}, {
-									field: 'reward_name',title: '获奖名称'
+									field: 'time',title: '就业时间'
+								},{
+									field: 'salary',title: '就业待遇'
 								}, {
-									field: 'reward_type',title: '奖项'
+									field: 'ability',title: '所需技能'
 								}, {
-									field: 'datetime',title: '获奖时间'
+									field: 'company_address',title: '就业单位地址'
 								}, {
-									field: 'organization',title: '组织单位'
-								}, {
+									field: 'company_number',title: '电话号码'
+								},{
 									field: 'set',title: '操作',toolbar: '#operateTpl',unresize: true
 								}]
 							],
@@ -126,21 +160,57 @@
 							event: true,
 							page: true
 						});
-						bindEvent();
 						data = result.data;
+						bindEvent();
 		            }
 		        });
 			}
+			
 			function bindEvent(){
+				
+				
+				/*用户-删除*/
+				$(".deleteStudent").on('click',function() {
+					var that = this;
+					layer.confirm('确认要删除吗？', function(index) {
+						var postData = {};
+						postData.student_id = $(that).parents('tr').get(0).firstChild.firstChild.innerHTML;
+						var indexLoad = layer.load(2); 
+						$.ajax({
+							type:"post",
+							url:"../../php/api.php?api=deleteStudent",
+							data: "data=" + JSON.stringify(postData),
+	            			dataType: 'JSON',
+							async:false,
+							success: function(result){
+								console.log(result)
+								if(result.code == 0){
+									$(that).parents("tr").remove();
+									layer.msg('已删除!', {
+										icon: 1,
+										time: 2000
+									});
+								}else{
+									layer.msg(result.msg, {
+										icon: 1,
+										time: 2000
+									});
+								}
+								layer.close(indexLoad);
+							}
+						});
+					});
+				});
 				
 //				修改信息
 				$(".updateStudent").on('click',function() {
 					var that = this;
-					WeAdminEdit('修改考证信息','./editReward.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 400)
+					WeAdminEdit('就业信息','./editEmployment.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 600)
 //					
 				});
 				form.render();
 			}
+			
 			$("#export").on("click",function(){
 				if(data.length > 0){
 					tableToExcel(data);
@@ -156,8 +226,7 @@
 			function tableToExcel(jsonData){
 		      //要导出的json数据
 		      //列标题
-		      console.log(jsonData)
-		      var str = '<tr><td>编号</td><td>学号</td><td>年级</td><td>姓名</td><td>专业</td><td>获奖等级</td><td>获奖名称</td><td>奖项</td><td>获奖时间</td><td>组织单位</td></tr>';
+		      var str = '<tr><td>编号</td><td>学号</td><td>年级</td><td>姓名</td><td>专业</td><td>就业单位</td><td>就业岗位</td><td>就业时间</td><td>就业待遇</td><td>所需技能</td><td>就业单位</td><td>电话号码</td></tr>';
 		      //循环遍历，每行加入tr标签，每个单元格加td标签
 		      for(let item  of jsonData ){
 		        str+='<tr>';
@@ -166,11 +235,13 @@
 		        str+= '<td>'+item.grade+'</td>';
 		        str+= '<td>'+item.name+'</td>';
 		        str+= '<td>'+item.science_name+'</td>';
-		        str+= '<td>'+item.reward_level+'</td>';
-		        str+= '<td>'+item.reward_name+'</td>';
-		        str+= '<td>'+item.reward_type+'</td>';
-		        str+= '<td>'+item.datetime+'</td>';
-		        str+= '<td>'+item.organization+'</td>';
+		        str+= '<td>'+item.company+'</td>';
+		        str+= '<td>'+item.post+'</td>';
+		        str+= '<td>'+item.time+'</td>';
+		        str+= '<td>'+item.salary+'</td>';
+		        str+= '<td>'+item.ability+'</td>';
+		        str+= '<td>'+item.company_address+'</td>';
+		        str+= '<td>'+item.company_number+'</td>';
 		        str+='</tr>';
 		      }
 		      //Worksheet名
@@ -191,6 +262,7 @@
 		    }
 		    //输出base64编码
     		function base64 (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+		
 		});
 
 		

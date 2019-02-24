@@ -41,35 +41,13 @@
 		<div class="weadmin-body">
 			<div class="layui-row">
 				<form class="layui-form layui-col-md12 ce">
-					<div class="layui-inline">
-	                  <select  lay-filter="grade" id="grade"  name="grade">
-	                    <option value="">请选择年级</option>
-	                    <option value="2016">2016</option>
-	                    <option value="2017">2017</option>
-	                    <option value="2018">2018</option>
-	                    <option value="2019">2019</option>
-	                  </select>
-					</div>
-					<div class="layui-inline">
-						<select  lay-filter="science_id" id="science_id" name="science_id">
-		                    <option data-dep="" value="">请选择专业</option>
-		                    <option data-dep="1" value="1">计算机科学与技术</option>
-		                    <option data-dep="1" value="2">软件工程</option>
-		                    <option data-dep="2" value="3">工商管理</option>
-		                    <option data-dep="2" value="4">人力资源管理专业</option>
-		                    <option data-dep="3" value="5">英语</option>
-		                    <option data-dep="3" value="6">日语</option>
-		                    <option data-dep="4" value="7">动画</option>
-		                    <option data-dep="4" value="8">数字媒体</option>
-		                  </select>
-					</div>
-					<div class="layui-inline">
+					
+					<!--<div class="layui-inline">
 						<input class="layui-input" placeholder="姓名" name="end" id="name">
-					</div>
+					</div>-->
 					<div class="layui-inline" style="margin: 0;" >
-						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="sreach" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>	
-						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加学生考证信息','./addCertificate.html',500,400)"><i class="layui-icon"></i>添加</button>
-						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="export" lay-filter="export">导出</button>	
+						<!--<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="sreach" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>-->	
+						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加个人考证信息','./addCertificate.html',500,300)"><i class="layui-icon"></i>添加</button>
 						
 					</div>
 					</form>
@@ -77,15 +55,13 @@
 			
 			<table class="layui-table" id="certificateList">
 				<script type="text/html" id="operateTpl">
-					<!--<a title="编辑" class="updateStudent"  onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 600)" href="javascript:;">
+					<a title="查看" class="updateStudent"   href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
-					</a>-->
-					<a title="查看" class="updateStudent"  href="javascript:;">
+					</a>
+					<!--<a title="查看" class="updateStudent"  href="javascript:;">
 						<i class="layui-icon">&#xe63c;</i>
-					</a>
-					<a title="删除" class="deleteStudent"  href="javascript:;">
-						<i class="layui-icon">&#xe640;</i>
-					</a>
+					</a>-->
+					
 				</script>
 			</table>
 			<a id="dlink" style="display:none;"></a>
@@ -109,21 +85,10 @@
 			$("#sreach").on("click",function(){
 				getDate();
 			});
-			$("#export").click(function(){
-				
-			})
 			
 			function getDate(){
 				var postData = {};
-				if($("#name").val() != ""){
-					postData.name = $("#name").val() ;
-				}
-				if($("#grade").val() != ""){
-					postData.grade = $("#grade").val() ;
-				}
-				if($("#science_id").val() != ""){
-					postData.science_id = $("#science_id").val() ;
-				}
+				postData.stu_id = sessionStorage.getItem('id');
 				 $.ajax({
 		            url: '../../php/api.php?api=queryCertificateList',
 		            type: 'post',
@@ -220,43 +185,12 @@
 			
 			function bindEvent(){
 				
-				/*用户-删除*/
-				$(".deleteStudent").on('click',function() {
-					var that = this;
-					layer.confirm('确认要删除吗？', function(index) {
-						var postData = {};
-						postData.id = $(that).parents('tr').get(0).firstChild.firstChild.innerHTML;
-						var indexLoad = layer.load(2); 
-						$.ajax({
-							type:"post",
-							url:"../../php/api.php?api=deleteCertificate",
-							data: "data=" + JSON.stringify(postData),
-	            			dataType: 'JSON',
-							async:false,
-							success: function(result){
-								console.log(result)
-								if(result.code == 0){
-									$(that).parents("tr").remove();
-									layer.msg('已删除!', {
-										icon: 1,
-										time: 2000
-									});
-								}else{
-									layer.msg(result.msg, {
-										icon: 1,
-										time: 2000
-									});
-								}
-								layer.close(indexLoad);
-							}
-						});
-					});
-				});
+				
 				
 //				修改信息
 				$(".updateStudent").on('click',function() {
 					var that = this;
-					WeAdminEdit('修改考证信息','./editCertificate.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 400)
+					WeAdminEdit('修改考证信息','./editCertificate.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 300)
 //					
 				});
 				form.render();

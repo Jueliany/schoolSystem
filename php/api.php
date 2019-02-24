@@ -29,6 +29,7 @@
     {
         case 'loginAdmin':echo $login -> loginAdmin();break;
         case 'loginStudent':echo $login -> loginStudent();break;
+        case 'changePassword':echo $login -> changePassword();break;
         case 'queryStudentList':echo $student -> queryStudentList();break;
         case 'addStudent':echo $student -> addStudent();break;
         case 'deleteStudent':echo $student -> deleteStudent();break;
