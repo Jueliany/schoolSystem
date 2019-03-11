@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			body{
+				background-color: #fff;
+				/*height: 1160px;*/
+				width: 820px;
+				/*border: 1px solid #ddd;*/
+				box-sizing: border-box;
+				padding: 40px 50px;
+			}
+			h1,h2{
+				padding: 0;
+				margin: 0;
+				font-weight: normal !important;
+				
+			}
+			span{
+				font-size: 14px;
+			}
+			.name{
+				font-size: 36px;
+			}
+			.top p{
+				margin-top: 10px;
+			}
+			.info-item{
+				position: relative;
+			}
+			.info-item h2{
+				font-size: 18px;
+				    /* margin-right: 60px; */
+			    border-top: 1px #f2f3f3 solid;
+			    color: #24272e;
+			    font-size: 18px;
+			    margin-top: 10px;
+			    line-height: 25px;
+			    padding: 20px 0 8px 23px;
+			    font-weight: 400;
+			}
+			.info-item h2:before{
+			    content: "";
+			    position: absolute;
+			    width: 3px;
+			    height: 15px;
+			    border-radius: 10px;
+			    background-color: #53cac3;
+			    left: 10px;
+			    top: 25px;
+			}
+			.item{
+				margin-left: 30px;
+				margin-bottom: 10px;
+			}
+			.item-name{
+				display: inline-block;
+				font-size: 15px;
+			    font-weight: 700;
+			    max-width: 420px;
+			    margin: 10px 0;
+			    word-break: break-all;
+			}
+			.time{
+				display: inline-block;
+			    color: #8d92a1;
+			    font-size: 12px;
+			    margin-right: 30px;
+			    margin-top: 10px;
+			    position: relative;
+			    float: right;
+			    top: 2px;
+			}
+			.science{
+				margin: 0;
+				margin-bottom: 10px;
+				font-size: 14px;
+			}
+			.vline{
+				display: inline-block;
+			    width: 1px;
+			    height: 12px;
+			    vertical-align: middle;
+			    background: #e0e0e0;
+			    margin: 0 20px;
+			}
+			.text{
+				color: #61687c;
+    			line-height: 24px;
+    			font-size: 14px;
+			}
+			.printf{
+				position: absolute;
+				height: 35px;
+				width: 35px;
+				top: 30px;
+				right: 30px;
+				cursor: pointer;
+			}
+		</style>
+		<link rel="stylesheet" href="../../lib/iconfont/iconfont.css">
+		<script src="../../static/js/jsPdf.debug.js"></script>
+		<script src="../../static/js/html2canvas.js"></script>
+		<script type="text/javascript" src="../../static/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../../static/js/Vue.js" ></script>
+	</head>
+	<body>
+		<img id="printf" class="printf" src="../../static/images/print.png">
+		<div id="personInfo">
+			<h1 class="name">{{info.name}}</h1>
+			<div class="top" style="margin: 20px 0;">
+				<p>
+					<span><i class="iconfont icon-icon-test" style="margin-right: 10px;"></i>{{nowType}}</span>
+					<em class="vline" style="margin-right: 40px"></em>
+					<span><i class="iconfont icon-xueli" style="margin-right: 10px;"></i>本科学历</span>
+					
+				</p>
+				<p>
+					<span><i class="iconfont icon-dianhua1" style="margin-right: 10px;"></i>{{info.telephone}}</span>
+					<em class="vline" style="margin-right: 40px"></em>
+					<span><i class="iconfont icon-youxiang1" style="margin-right: 10px;"></i>{{info.email}}</span>
+				</p>
+			</div>
+			<div class="school info-item">
+				<h2>教育经历</h2>
+				<div class="item">
+					<div >
+	                    <h4 class="item-name">广州大学华软软件学院</h4>
+	                    <span class="time">{{info.grade}} - 至今</span>
+	                </div>
+	                <h4 class="science">物联网工程<em class="vline"></em><b>本科</b></h4>
+				</div>
+			</div>
+			<div class="work info-item" v-if="getLength(employmentList)>0">
+				<h2>工作经历</h2>
+				<div v-for="(employ,index) of employmentList" v-if="index < 2">
+					<div class="item">
+						<div >
+		                    <h4 class="item-name">{{employ.company}}</h4>
+		                    <span class="time">{{employ.time}}</span>
+		                </div>
+		                <h4 class="science">{{employ.section}}<em class="vline"></em><b>{{employ.post}}</b></h4>
+		                <p class="text">{{employ.ability}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="major info-item" v-if="getLength(matchList)>0" >
+				<h2>项目经历</h2>
+				<div v-for="(match,index) of matchList" v-if="index < 2">
+					<div class="item">
+						<div >
+		                    <h4 class="item-name">{{match.match_works}}</h4>
+		                    <span class="time">{{match.match_time}}</span>
+		                </div>
+		                <h4 class="science">{{match.match_name}}<em class="vline"></em><b>{{match.match_level}}</b></h4>
+		                <p class="text">{{match.match_describe}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="reward info-item" v-if="getLength(rewardList)>0">
+				<h2>获奖信息</h2>
+				<div v-for="(reward,index) of rewardList" v-if="index < 2">
+					<div class="item">
+						<div >
+		                    <h4 class="item-name">{{reward.reward_name}}</h4>
+		                    <span class="time">{{reward.datetime}}</span>
+		                </div>
+		                <h4 class="science">{{reward.reward_type}}<em class="vline"></em><b>{{reward.reward_level}}</b></h4>
+		                <!--<p class="text">{{reward.reward_describe}}</p>-->
+					</div>
+				</div>
+			</div>
+			<div class="cert info-item" v-if="getLength(certificateList)>0">
+				<h2>证书技能</h2>
+				<div v-for="cer of certificateList">
+					<div class="item">
+						<div >
+		                    <h4 class="item-name">{{cer.certificate_name}}</h4>
+		                    <span class="time">{{cer.issue_time}}</span>
+		               </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		var id = sessionStorage.getItem("id");
+		var vm = new Vue({ //通过Vue渲染
+		  el: '#personInfo',
+		  data: {
+		    info:{},
+		    matchList:[],
+		    employmentList: [],
+		    rewardList: [],
+		    certificateList:[]
+		    
+		  },
+		  beforeMount:function(){
+//			var postData = {};
+			let that = this;
+          	var postData = {};
+          	postData.student_id = id;
+          	//加载个人信息
+			$.ajax({
+	            url: '../../php/api.php?api=queryStudentList',
+	            type: 'post',
+	            data: "data="+JSON.stringify(postData),
+	            dataType: 'JSON',
+	            success: function (result) {
+	            	if(result.code == 0){
+	            		that.info = result.data[0];
+	            	}
+	            }
+	        });
+	        //加载工作经历
+	        var postData = {};
+          	postData.student_id = sessionStorage.getItem("id")
+			 $.ajax({
+	            url: '../../php/api.php?api=queryEmploymentList',
+	            type: 'post',
+	            data: "data="+JSON.stringify(postData),
+	            dataType: 'JSON',
+	            success: function (result) {
+	            	if(result.code == 0){
+	            		that.employmentList = result.data;
+	            	}
+	            }
+	        });
+	        
+	        //加载比赛
+	        var postData = {};
+          	postData.student_id = sessionStorage.getItem("id")
+				 $.ajax({
+		            url: '../../php/api.php?api=queryMatchList',
+	            type: 'post',
+	            data: "data="+JSON.stringify(postData),
+	            dataType: 'JSON',
+	            success: function (result) {
+	            	if(result.code == 0){
+	            		that.matchList = result.data;
+	            	}
+	            }
+	        });
+	        //加载获奖
+	        var postData = {};
+          	postData.stu_id = sessionStorage.getItem("id")
+				 $.ajax({
+		            url: '../../php/api.php?api=queryReward',
+	            type: 'post',
+	            data: "data="+JSON.stringify(postData),
+	            dataType: 'JSON',
+	            success: function (result) {
+	            	if(result.code == 0){
+	            		that.rewardList = result.data;
+	            	}
+	            }
+	        });
+	        //加载证书
+	        var postData = {};
+          	postData.student_id = sessionStorage.getItem("id")
+				 $.ajax({
+		            url: '../../php/api.php?api=queryCertificateList',
+	            type: 'post',
+	            data: "data="+JSON.stringify(postData),
+	            dataType: 'JSON',
+	            success: function (result) {
+	            	if(result.code == 0){
+	            		that.certificateList = result.data;
+	            	}
+	            }
+	        });
+	        
+	        
+		  },
+		  methods: {
+		  	getLength(list){
+		  		console.log(list.length)
+		  		return list.length;
+		  	},
+		  },
+		  computed:{
+		  	nowType(){
+		  		var year = new Date().getFullYear()
+		  		if(parseInt(this.info.grade) + 4 == year){
+		  			return "应届生"
+		  		}else{
+		  			return "在校生"
+		  		}
+		  	},
+		  	
+		  },
+       });
+       
+    
+	</script>
+	<script>
+		var downPdf = document.getElementById("printf");
+				
+				
+				      downPdf.onclick = function() {
+				          html2canvas(document.body, {
+				              onrendered:function(canvas) {
+				
+				                  //返回图片URL，参数：图片格式和清晰度(0-1)
+				                  var pageData = canvas.toDataURL('image/jpeg', 1.0);
+				
+				                  //方向默认竖直，尺寸ponits，格式a4【595.28,841.89]
+				                  var pdf = new jsPDF('', 'pt', 'a4');
+				
+				                  //需要dataUrl格式
+				                  pdf.addImage(pageData, 'JPEG', 0, 0, 900, 900/canvas.width * canvas.height );
+				
+				                  pdf.save('content.pdf');
+				
+				              }
+				          })
+				      }
+	</script>
+</html>

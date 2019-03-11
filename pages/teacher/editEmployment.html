@@ -37,6 +37,12 @@
               </div>
           </div>
           <div class="layui-form-item">
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>部门</label>
+              <div class="layui-input-inline">
+                  <input lay-verify="required" type="text" id="section" name="section" autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
               <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>就业岗位</label>
               <div class="layui-input-inline">
                   <input lay-verify="required" type="text" id="post" name="post" autocomplete="off" class="layui-input">
@@ -55,7 +61,7 @@
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>所需技能</label>
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>工作内容</label>
               <div class="layui-input-inline">
                   <input lay-verify="required" type="text" id="ability" name="ability" autocomplete="off" class="layui-input">
               </div>
@@ -101,6 +107,7 @@
 	            		var info = result.data[0];
 	            		$("#stu_id").val(info.stu_id);
 	            		$("#company").val(info.company);
+	            		$("#section").val(info.section);
 	            		$("#post").val(info.post);
 	            		$("#time").val(info.time);
 	            		$("#salary").val(info.salary);
