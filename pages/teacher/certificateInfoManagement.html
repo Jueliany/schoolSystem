@@ -75,7 +75,7 @@
 					</form>
 			</div>
 			
-			<table class="layui-table" id="certificateList">
+			<table class="layui-table" id="certificateList"  lay-filter="tab">
 				<script type="text/html" id="operateTpl">
 					<!--<a title="编辑" class="updateStudent"  onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 600)" href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
@@ -166,7 +166,7 @@
 		            }
 		        });
 			}
-				
+			table.on('event(tab)', bindEvent);	
 			$("#export").on("click",function(){
 				if(data.length > 0){
 					tableToExcel(data);
