@@ -80,10 +80,10 @@
 					<!--<a title="编辑" class="updateStudent"  onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 600)" href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
 					</a>-->
-					<a title="查看" class="updateStudent"  href="javascript:;">
+					<a title="查看" class="updateStudent" onclick="updateStudent(this)"  href="javascript:;">
 						<i class="layui-icon">&#xe63c;</i>
 					</a>
-					<a title="删除" class="deleteStudent"  href="javascript:;">
+					<a title="删除" class="deleteStudent" onclick="deleteStudent(this)" href="javascript:;">
 						<i class="layui-icon">&#xe640;</i>
 					</a>
 				</script>
@@ -169,9 +169,12 @@
 		        });
 			}
 			function bindEvent(){
-				/*用户-删除*/
-				$(".deleteStudent").on('click',function() {
-					var that = this;
+				form.render();
+			}
+			
+			/*用户-删除*/
+				deleteStudent = function(ele) {
+					var that = ele;
 					layer.confirm('确认要删除吗？', function(index) {
 						var postData = {};
 						postData.id = $(that).parents('tr').get(0).firstChild.firstChild.innerHTML;
@@ -200,17 +203,16 @@
 							}
 						});
 					});
-				});
+				};
 				
 				
 //				修改信息
-				$(".updateStudent").on('click',function() {
-					var that = this;
-					WeAdminEdit('修改考证信息','./editReward.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 500)
+				updateStudent = function(ele) {
+					var that = ele;
+					WeAdminEdit('修改考证信息','./editReward.html',$(ele).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 500)
 //					
-				});
-				form.render();
-			}
+				};
+			
 			$("#export").on("click",function(){
 				if(data.length > 0){
 					tableToExcel(data);

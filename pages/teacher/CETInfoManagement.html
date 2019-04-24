@@ -80,10 +80,10 @@
 					<!--<a title="编辑" class="updateStudent"  onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 600)" href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
 					</a>-->
-					<a title="查看" class="updateStudent"  href="javascript:;">
+					<a title="查看" class="updateStudent" onclick="change(this)"  href="javascript:;">
 						<i class="layui-icon">&#xe63c;</i>
 					</a>
-					<a title="删除" class="deleteStudent"  href="javascript:;">
+					<a title="删除" class="" onclick="deleteStudent(this)"  href="javascript:;">
 						<i class="layui-icon">&#xe640;</i>
 					</a>
 				</script>
@@ -219,51 +219,48 @@
 			 
 			
 			function bindEvent(){
-				
-				
-				/*用户-删除*/
-				$(".deleteStudent").on('click',function() {
-					var that = this;
-					layer.confirm('确认要删除吗？', function(index) {
-						var postData = {};
-						postData.id = $(that).parents('tr').get(0).firstChild.firstChild.innerHTML;
-						var indexLoad = layer.load(2); 
-						$.ajax({
-							type:"post",
-							url:"../../php/api.php?api=deleteCET",
-							data: "data=" + JSON.stringify(postData),
-	            			dataType: 'JSON',
-							async:false,
-							success: function(result){
-								console.log(result)
-								if(result.code == 0){
-									$(that).parents("tr").remove();
-									layer.msg('已删除!', {
-										icon: 1,
-										time: 2000
-									});
-								}else{
-									layer.msg(result.msg, {
-										icon: 1,
-										time: 2000
-									});
-								}
-								layer.close(indexLoad);
-							}
-						});
-					});
-				});
-				
-//				修改信息
-				$(".updateStudent").on('click',function() {
-					var that = this;
-					WeAdminEdit('修改考证信息','./editCET.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 400)
-//					
-				});
 				form.render();
 			}
 		});
-
+		//修改信息
+		function change(ele) {
+			var that = ele;
+			WeAdminEdit('修改考证信息','./editCET.html',$(that).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 400)
+//					
+		};
+		
+		/*用户-删除*/
+		function deleteStudent(ele) {
+			var that = ele;
+			layer.confirm('确认要删除吗？', function(index) {
+				var postData = {};
+				postData.id = $(that).parents('tr').get(0).firstChild.firstChild.innerHTML;
+				var indexLoad = layer.load(2); 
+				$.ajax({
+					type:"post",
+					url:"../../php/api.php?api=deleteCET",
+					data: "data=" + JSON.stringify(postData),
+        			dataType: 'JSON',
+					async:false,
+					success: function(result){
+						console.log(result)
+						if(result.code == 0){
+							$(that).parents("tr").remove();
+							layer.msg('已删除!', {
+								icon: 1,
+								time: 2000
+							});
+						}else{
+							layer.msg(result.msg, {
+								icon: 1,
+								time: 2000
+							});
+						}
+						layer.close(indexLoad);
+					}
+				});
+			});
+		};
 		
 	</script>
 </html>
