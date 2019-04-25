@@ -53,7 +53,7 @@
 					<!--<a title="编辑" class="updateStudent"  onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 600)" href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
 					</a>-->
-					<a title="编辑" class="updateStudent"  href="javascript:;">
+					<a title="编辑" class="updateStudent" onclick="updateStudent(this)"  href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
 					</a>
 					
@@ -219,14 +219,15 @@
 					});
 				});
 				
-//				修改信息
-				$(".updateStudent").on('click',function() {
-					var that = this;
-					WeAdminEdit('专业比赛信息','./editMajorMatch.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 400)
-//					
-				});
+
 				form.render();
 			}
+			//				修改信息
+				updateStudent=function(ele) {
+					var that = ele;
+					WeAdminEdit('专业比赛信息','./editMajorMatch.html',$(ele).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 400)
+//					
+				};
 		});
 
 		

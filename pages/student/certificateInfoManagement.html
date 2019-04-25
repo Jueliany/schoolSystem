@@ -55,7 +55,7 @@
 			
 			<table class="layui-table" id="certificateList">
 				<script type="text/html" id="operateTpl">
-					<a title="查看" class="updateStudent"   href="javascript:;">
+					<a title="查看" class="updateStudent" onclick="updateStudent(this)"  href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
 					</a>
 					<!--<a title="查看" class="updateStudent"  href="javascript:;">
@@ -181,18 +181,15 @@
 		    //输出base64编码
     		function base64 (s) { return window.btoa(unescape(encodeURIComponent(s))) }
 			 
-			 
+			 //				修改信息
+				updateStudent = function(ele) {
+					var that = ele;
+					WeAdminEdit('修改考证信息','./editCertificate.html',$(ele).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 400)
+//					
+				};
 			
 			function bindEvent(){
-				
-				
-				
-//				修改信息
-				$(".updateStudent").on('click',function() {
-					var that = this;
-					WeAdminEdit('修改考证信息','./editCertificate.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 400)
-//					
-				});
+
 				form.render();
 			}
 		});

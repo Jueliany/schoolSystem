@@ -48,7 +48,7 @@
 					<!--<a title="编辑" class="updateStudent"  onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 600)" href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
 					</a>-->
-					<a title="查看" class="updateStudent"  href="javascript:;">
+					<a title="查看" class="updateStudent" onclick="updateStudent(this)"  href="javascript:;">
 						<i class="layui-icon">&#xe642;</i>
 					</a>
 					
@@ -162,12 +162,7 @@
 					});
 				});
 				
-//				修改信息
-				$(".updateStudent").on('click',function() {
-					var that = this;
-					WeAdminEdit('就业信息','./editEmployment.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 500)
-//					
-				});
+//				
 				form.render();
 			}
 			
@@ -223,6 +218,12 @@
 		    //输出base64编码
     		function base64 (s) { return window.btoa(unescape(encodeURIComponent(s))) }
 		
+			//修改信息
+				updateStudent=function(ele) {
+					var that = ele;
+					WeAdminEdit('就业信息','./editEmployment.html',$(ele).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 500)
+//					
+				};
 		});
 
 		
