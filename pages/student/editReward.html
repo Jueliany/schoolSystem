@@ -61,11 +61,19 @@
                   <input lay-verify="required" type="text" id="organization" name="organization" autocomplete="off" class="layui-input">
               </div>
           </div>
+           <div class="layui-form-item">
+              <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>奖状图片</label>
+              <div class="layui-input-inline">
+                  <img id="headPortraitImgShow1" onclick="showPic(this)" src="images/pic.jpg" alt="" width="160px" height="90px" />
+                  <input lay-verify="required"  type="hidden" id="pic" name="pic"  class="layui-input">
+	　　		 </div>
+          </div>
           <div class="">
 				<!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
 				<button lay-submit lay-filter="updateReward" style="float: right;margin-right: px;" class="layui-btn" >修改</button>
 			</div>
       </form>
+      <input  type="file" name="picUrl" id="headPortraitUpload1" style="margin-top:10px;">
     
     </div>
 	<script src="../../lib/layui/layui.js" charset="utf-8"></script>
@@ -79,6 +87,47 @@
 			  elem: '#issue_time'
 			  //,type: 'date' //默认，可不填
 			});
+			
+			$("#upPic").on('click',function(){
+				$("#headPortraitUpload1").click;
+			})
+			$("#headPortraitUpload1").on("change",headPortraitListener1);
+			 /*定义全局变量存贮图片信息*/
+			 var base64head1="";
+			function headPortraitListener1(e) {
+			    var img1 = document.getElementById('headPortraitImgShow1');
+			      if(window.FileReader) {
+			          var file  = e.target.files[0];
+			          var reader = new FileReader();
+			          if (file && file.type.match('image.*')) {
+			              reader.readAsDataURL(file);
+			          } else {
+			              img1.css('display', 'none');
+			              img1.attr('src', '');
+			          }
+			          reader.onloadend = function (e) {
+			          img1.setAttribute('src', reader.result);
+			          base64head1 = reader.result;
+			          $.ajax({
+				            url: 'http://127.0.0.1:5200/upload',
+				            type: 'post',
+				            async: false,
+				            data: base64head1,
+				            dataType: 'JSON',
+				            success: function (result) {
+				            	if(result.resultCode==0){
+				            		$("#pic").val("http://127.0.0.1:5200"+result.url)
+				            		img1.src="http://127.0.0.1:5200"+result.url
+				            	}else{
+				            		
+				            	}
+				            	
+				            }
+				       });
+			        }
+			      }
+			}
+			
 			var postData = {};
           	postData.id = $("#dataId").val();
 			$.ajax({
@@ -96,9 +145,14 @@
 	            		$("#datetime").val(info.datetime);
 	            		$("#reward_describe").val(info.reward_describe);
 	            		$("#organization").val(info.organization);
+	            		$("#pic").val(info.pic);
+	            		document.getElementById('headPortraitImgShow1').setAttribute('src', info.pic);;
 	            	}
 	            }
 	        });
+	        showPic = function(ele){
+	        	window.open(ele.src)
+	        }
 	        //监听提交
 	        form.on('submit(updateReward)', function(data){
 //	            console.log(data.field);

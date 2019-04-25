@@ -87,6 +87,14 @@
 						<i class="layui-icon">&#xe640;</i>
 					</a>
 				</script>
+				<script type="text/html" id="pic">
+					<!--<a title="编辑" class="updateStudent"  onclick="WeAdminEdit('编辑','./edit.html', 2, 600, 600)" href="javascript:;">
+						<i class="layui-icon">&#xe642;</i>
+					</a>-->
+					<a title="" class="showPic"  href="javascript:;">
+						图片
+					</a>
+				</script>
 			</table>
 			<a id="dlink" style="display:none;"></a>
 		</div>
@@ -151,8 +159,6 @@
 									field: 'issue_unit',title: '颁发单位'
 								}, {
 									field: 'issue_time',title: '颁发时间'
-								}, {
-									field: 'pic',title: '图片'
 								}, {
 									field: 'set',title: '操作',toolbar: '#operateTpl',unresize: true
 								}]

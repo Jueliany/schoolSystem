@@ -47,7 +47,7 @@
 					</div>-->
 					<div class="layui-inline" style="margin: 0;" >
 						<!--<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" id="sreach" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>-->	
-						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加个人考证信息','./addCertificate.html',500,300)"><i class="layui-icon"></i>添加</button>
+						<button class="layui-btn" style="float: right; margin-right: 20px; " type="button" onclick="WeAdminShow('添加个人考证信息','./addCertificate.html',500,400)"><i class="layui-icon"></i>添加</button>
 						
 					</div>
 					</form>
@@ -190,7 +190,7 @@
 //				修改信息
 				$(".updateStudent").on('click',function() {
 					var that = this;
-					WeAdminEdit('修改考证信息','./editCertificate.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 300)
+					WeAdminEdit('修改考证信息','./editCertificate.html',$(this).parents('tr').get(0).firstChild.firstChild.innerHTML, 500, 400)
 //					
 				});
 				form.render();

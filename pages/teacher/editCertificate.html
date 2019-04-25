@@ -51,7 +51,7 @@
           <div class="layui-form-item">
               <label for="categoryName" class="layui-form-label"><span class="we-red">*</span>证书图片</label>
               <div class="layui-input-inline">
-                  <img id="headPortraitImgShow1" src="images/pic.jpg" alt="" width="160px" height="90px" />
+                  <img id="headPortraitImgShow1" onclick="showPic(this)" src="images/pic.jpg" alt="" width="160px" height="90px" />
                   <input lay-verify="required"  type="hidden" id="pic" name="pic"  class="layui-input">
 	　　		 </div>
           </div>
@@ -108,7 +108,8 @@
 				            dataType: 'JSON',
 				            success: function (result) {
 				            	if(result.resultCode==0){
-				            		$("#pic").val("http://127.0.0.1:5200"+result.url)
+				            		$("#pic").val("http://127.0.0.1:5200"+result.url);
+				            		img1.src="http://127.0.0.1:5200"+result.url
 				            	}else{
 				            		
 				            	}
@@ -183,10 +184,12 @@
 	        }); 
 	        
 	        function bindEvent(){
-	        	
 	        	form.render();
 	        }
         });
+        showPic = function(ele){
+        	window.open(ele.src)
+        }
     </script>
   </body>
 
